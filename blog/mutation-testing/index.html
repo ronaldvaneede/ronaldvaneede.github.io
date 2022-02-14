@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="description" content="This is your first blog post.">
+
+        <meta property="og:title" content="Mutation testing | Ronald van Eede"/>
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://ronaldvaneede.me/blog/mutation-testing"/>
+        <meta property="og:description" content="This is your first blog post." />
+
+        <title>Mutation testing | Ronald van Eede</title>
+
+        <link rel="home" href="https://ronaldvaneede.me">
+        <link rel="icon" href="/favicon.ico">
+        <link href="/blog/feed.atom" type="application/atom+xml" rel="alternate" title="Ronald van Eede Atom Feed">
+
+                    <!-- Insert analytics code here -->
+        
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=f408e1e04850e7a8dac1">
+    </head>
+
+    <body class="flex flex-col justify-between min-h-screen bg-gray-100 text-gray-800 leading-normal font-sans">
+        <header class="flex items-center shadow bg-white border-b h-24 py-4" role="banner">
+            <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
+                <div class="flex items-center">
+                    <a href="/" title="Ronald van Eede home" class="inline-flex items-center">
+                        <!-- <img class="h-8 md:h-10 mr-3" src="/assets/img/logo.svg" alt="Ronald van Eede logo" /> -->
+
+                        <h1 class="text-lg md:text-2xl text-blue-800 font-semibold hover:text-blue-600 my-0">Ronald van Eede</h1>
+                    </a>
+                </div>
+
+                <div id="vue-search" class="flex flex-1 justify-end items-center">
+                    <search></search>
+
+                    <nav class="hidden lg:flex items-center justify-end text-lg">
+    <!--
+    <a title="Ronald van Eede Blog" href="/blog"
+        class="ml-6 text-gray-700 hover:text-blue-600 ">
+        Blog
+    </a>
+    
+    <a title="Ronald van Eede About" href="/about"
+        class="ml-6 text-gray-700 hover:text-blue-600 ">
+        About
+    </a>
+
+    <a title="Ronald van Eede Contact" href="/contact"
+        class="ml-6 text-gray-700 hover:text-blue-600 ">
+        Contact
+    </a>
+    -->
+</nav>
+
+                    <button class="flex justify-center items-center bg-blue-500 border border-blue-500 h-10 px-5 rounded-full lg:hidden focus:outline-none"
+    onclick="navMenu.toggle()"
+>
+    <svg id="js-nav-menu-show" xmlns="http://www.w3.org/2000/svg"
+        class="fill-current text-white h-9 w-4" viewBox="0 0 32 32"
+    >
+        <path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/>
+    </svg>
+
+    <svg id="js-nav-menu-hide" xmlns="http://www.w3.org/2000/svg"
+        class="hidden fill-current text-white h-9 w-4" viewBox="0 0 36 30"
+    >
+        <polygon points="32.8,4.4 28.6,0.2 18,10.8 7.4,0.2 3.2,4.4 13.8,15 3.2,25.6 7.4,29.8 18,19.2 28.6,29.8 32.8,25.6 22.2,15 "/>
+    </svg>
+</button>
+
+                </div>
+            </div>
+        </header>
+
+        <nav id="js-nav-menu" class="w-auto px-2 pt-6 pb-2 bg-gray-200 shadow hidden lg:hidden">
+    <!--
+    <ul class="my-0">
+        <li class="pl-4">
+            <a
+                title="Ronald van Eede Blog"
+                href="/blog"
+                class="block mt-0 mb-4 text-sm no-underline text-gray-800 hover:text-blue-500"
+            >Blog</a>
+        </li>
+        <li class="pl-4">
+            <a
+                title="Ronald van Eede About"
+                href="/about"
+                class="block mt-0 mb-4 text-sm no-underline text-gray-800 hover:text-blue-500"
+            >About</a>
+        </li>
+        <li class="pl-4">
+            <a
+                title="Ronald van Eede Contact"
+                href="/contact"
+                class="block mt-0 mb-4 text-sm no-underline text-gray-800 hover:text-blue-500"
+            >Contact</a>
+        </li>
+    </ul>
+    -->
+</nav>
+
+        <main role="main" class="flex-auto w-full container max-w-4xl mx-auto py-16 px-6">
+                        <img src="https://picsum.photos/seed/mutationtesting/848/300" alt="Mutation testing cover image" class="mb-2 rounded-md shadow-md">
+    
+    <h1 class="leading-none mb-2">Mutation testing</h1>
+
+    <p class="text-gray-700 text-xl md:mt-0">Ronald van Eede  •  February 19, 2016  •  6 min read</p>
+
+                        <a
+                href="/blog/categories/Development"
+                title="View posts in Development"
+                class="inline-block bg-gray-300 hover:bg-blue-200 leading-loose tracking-wide text-gray-800 uppercase text-xs font-semibold rounded mr-4 px-3 pt-px"
+            >Development</a>
+                    <a
+                href="/blog/categories/Java"
+                title="View posts in Java"
+                class="inline-block bg-gray-300 hover:bg-blue-200 leading-loose tracking-wide text-gray-800 uppercase text-xs font-semibold rounded mr-4 px-3 pt-px"
+            >Java</a>
+                    <a
+                href="/blog/categories/Testing"
+                title="View posts in Testing"
+                class="inline-block bg-gray-300 hover:bg-blue-200 leading-loose tracking-wide text-gray-800 uppercase text-xs font-semibold rounded mr-4 px-3 pt-px"
+            >Testing</a>
+            
+    <div class="border-b border-blue-200 mb-10 pb-4" v-pre>
+        <p>This is the original article, you can also find this article on my employer’s website.</p>
+
+<p>When you write code you also write tests to prove that your code works, right? But how do you know your tests are correct? How to test your tests?
+This is where Mutation Testing comes in. How does that work?</p>
+
+<p>The concept of mutation testing is simple, when you run your tests faults are automatically seeded into your code. If your tests fail the mutation is killed, are your tests still green? Then the mutation lived. So you can measure the quality of your tests by the amount of mutation that are killed.
+So you run your unit tests against automatically modified versions of your code. When the code changes different results will be produced and your tests should fail.
+Why?</p>
+
+<p>Why do you want to do this? We can measure quality with test coverage, right? This is only true up to a certain level. There is no guarantee that your tests can actually detect faults. Test coverage only measures which code is executed.
+How?</p>
+
+<p>So how do we do this with Java? There are some mutation testing systems for Java but the most widely used one is <a href="http://pitest.org/">PIT</a>.</p>
+
+<p>All you have to do to get started is to add a build plugin in your <code>pom.xml</code> and add some configuration for the classes you want to target and the tests that you want to use:</p>
+
+<pre><code class="language-xml">&lt;plugin&gt;
+    &lt;groupId&gt;org.pitest&lt;/groupId&gt;
+    &lt;artifactId&gt;pitest-maven&lt;/artifactId&gt;
+    &lt;version&gt;1.1.6&lt;/version&gt;
+    &lt;configuration&gt;
+        &lt;targetClasses&gt;
+            &lt;param&gt;com.vaneede.ronald.pittest.factory*&lt;/param&gt;
+        &lt;/targetClasses&gt;
+        &lt;targetTests&gt;
+            &lt;param&gt;com.vaneede.ronald.pittest.factory*&lt;/param&gt;
+        &lt;/targetTests&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;
+</code></pre>
+
+<p>Now you can use the <code>mvn org.pitest:pitest-maven:mutationCoverage</code> command to run the mutation tests, but make sure you have a green unit test suite first, because PIT needs that. there is also a plugin available for IntelliJ and Eclipse.</p>
+
+<p>To give it a try you can create a small Java project
+Create a <code>Movie.java</code> file with this content:</p>
+
+<pre><code class="language-java">package com.vaneede.ronald.pittest.entity;
+
+public class Movie {
+    private final String id;
+    private final String title;
+    private final String director;
+
+    public Movie(String id, String title, String director) {
+        this.id = id;
+        this.title = title;
+        this.director = director;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+}
+</code></pre>
+
+<p>And a <code>MovieFactory.java</code> file:</p>
+
+<pre><code class="language-java">package com.vaneede.ronald.pittest.factory;
+
+import com.vaneede.ronald.pittest.entity.Movie;
+import java.util.UUID;
+
+public class MovieFactory {
+    private static final int MIN_LENGTH = 3;
+
+    public Movie create(final String title, final String director) {
+        if (title == null) {
+            throw new IllegalArgumentException("title must be set");
+        }
+        if (title.length() &lt;= MIN_LENGTH) {
+            throw new IllegalArgumentException("title must have a minimal length of " + MIN_LENGTH);
+        }
+        if (director == null) {
+            throw new IllegalArgumentException("director must be set");
+        }
+
+        return new Movie(UUID.randomUUID().toString().toUpperCase(), title, director);
+    }
+}
+</code></pre>
+
+<p>And a test class, <code>MovieFactroyTest</code>:</p>
+
+<pre><code class="language-java">package com.vaneede.ronald.pitest.factory;
+
+import com.vaneede.ronald.pittest.entity.Movie;
+import com.vaneede.ronald.pittest.factory.MovieFactory;
+import org.junit.Test;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+
+public class MovieFactoryTest {
+    private static final String TITLE = "Pulp Fiction";
+    private static final String DIRECTOR = "Quentin Tarantino";
+
+    private final MovieFactory movieFactory = new MovieFactory();
+
+    @Test
+    public void shouldCreateMovie() throws Exception {
+        final Movie movie = movieFactory.create(TITLE, DIRECTOR);
+        assertThat(movie, notNullValue());
+        assertThat(movie.getTitle(), equalTo(TITLE));
+        assertThat(movie.getDirector(), equalTo(DIRECTOR));
+        assertThat(movie.getId(), not(isEmptyOrNullString()));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailCreateMovieWithNoTitleGiven() throws Exception {
+        movieFactory.create(null, DIRECTOR);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailCreateMovieWithNoDirectorGiven() throws Exception {
+        movieFactory.create(TITLE, null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailCreateMovieWithTooShortTitleGiven() throws Exception {
+        movieFactory.create("pf", DIRECTOR);
+    }
+}
+</code></pre>
+
+<p>When you run the tests with coverage you will see that all the code in the <code>MovieFactory</code> class is covered by the tests.
+So we tested everything, right? Not entirely. Let's run PIT.<br />
+PIT will run the tests again but it will make small changes to the code. It does this in-memory so it's fast and it does not change your actual code.
+It changes things like <code>==</code> to <code>!=</code>, <code>!=</code> to <code>==</code>, <code>&lt;=</code> to <code>&lt;</code>, return <code>true</code> instead of <code>false</code>, or <code>false</code> instead of <code>true</code> etcetera.</p>
+
+<pre><code>================================================================================
+- Statistics
+================================================================================
+&gt;&gt; Generated 8 mutations Killed 7 (88%)
+&gt;&gt; Ran 11 tests (1.38 tests per mutation)
+</code></pre>
+
+<p>So it looks like our tests killed 7 mutations, but 1 survived. Can you already find it?<br />
+Let's continue with the report summary:</p>
+
+<pre><code>================================================================================
+- Mutators
+================================================================================
+&gt; org.pitest.mutationtest.engine.gregor.mutators.ConditionalsBoundaryMutator
+&gt;&gt; Generated 1 Killed 0 (0%)
+&gt; KILLED 0 SURVIVED 1 TIMED_OUT 0 NON_VIABLE 0
+&gt; MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0
+&gt; NO_COVERAGE 0
+--------------------------------------------------------------------------------
+&gt; org.pitest.mutationtest.engine.gregor.mutators.ReturnValsMutator
+&gt;&gt; Generated 4 Killed 4 (100%)
+&gt; KILLED 4 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0
+&gt; MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0
+&gt; NO_COVERAGE 0
+--------------------------------------------------------------------------------
+&gt; org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator
+&gt;&gt; Generated 3 Killed 3 (100%)
+&gt; KILLED 3 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0
+&gt; MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0
+&gt; NO_COVERAGE 0
+--------------------------------------------------------------------------------
+</code></pre>
+
+<h2>Mutators</h2>
+
+<p>So PIT used three different kind of mutators: <code>ConditionalsBoundaryMutator</code>, <code>ReturnValsMutator</code> and <code>NegateConditionalsMutator</code>.<br />
+The <code>ConditionalsBoundaryMutator</code> changes <code>&lt;</code> to <code>&lt;=</code>, <code>&lt;=</code> to <code>&lt;</code>, <code>&gt;</code> to <code>&gt;=</code> and <code>&gt;=</code> to <code>&gt;</code>.<br />
+The <code>ReturnValsMutator</code> changes the return values of your methods, so if your method normally returns true it is mutated to return false instead. Or it the method normally returns an Object it will return null.<br />
+The <code>NegateConditionalsMutator</code> changes conditional statements, so it will change <code>==</code> to <code>!=</code>, <code>!=</code> to <code>==</code>, <code>&lt;=</code> to <code>&gt;</code>, <code>&gt;=</code> to <code>&lt;</code>, <code>&lt;</code> to <code>&gt;=</code> and <code>&gt;</code> to <code>&lt;=</code>. Besides these three mutators there are a total of 13 possible mutators, 7 of them are enabled by default, the others have to be enabled explicitly.<br />
+As you can see in the report above only 3 out of the 7 that are enabled by default where used, that is because the others where not applicable for the example code.So we have 1 mutation that survived, let's take a deeper look at that one. PIT generated a nice HTML report in the target directory so we can open that in the browser.</p>
+
+<p><img src="/assets/img/moviefactory.java.png" class="mb-6 rounded-md shadow-md"></p>
+
+<p>Light green shows line coverage.<br />
+Dark green shows mutation coverage.<br />
+Light pink show lack of line coverage.<br />
+Dark pink shows lack of mutation coverage.</p>
+
+<p>In the report you can see that there is a problem on line 14. PIT tested that line with a <code>NegateConditionalsMutator</code> and a <code>ConditionalsBoundaryMutator</code> mutator.
+As you can see in the list of Mutations the <code>ConditionalsBoundaryMutator</code> mutation caused a test to fail, so the mutant survived.<br />
+In this case this is because we only test for a movie title shorter than 3 characters but not for a title of exactly 3 characters. So by including mutation into our project we discovered that we where missing a test.<br />
+This is only one small example, there are a lot more mutators that can be used, like the <code>VoidMethodCalls</code> mutator that removed calls to void methods or the <code>MathMutator</code> that changes calculations in your code.</p>
+    </div>
+
+    <nav class="flex justify-between text-sm md:text-base">
+        <div>
+                            <a href="https://ronaldvaneede.me/blog/podcasts-for-developers" title="Older Post: Podcasts for developers">
+                    &LeftArrow; Podcasts for developers
+                </a>
+                    </div>
+
+        <div>
+                            <a href="https://ronaldvaneede.me/blog/my-first-blog-post" title="Newer Post: My First Blog Post">
+                    My First Blog Post &RightArrow;
+                </a>
+                    </div>
+    </nav>
+        </main>
+
+        <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo">
+            <ul class="flex flex-col md:flex-row justify-center list-none">
+                <li class="md:mr-2">
+                    Copyright &copy; 2022 Ronald van Eede</a>
+                </li>
+            </ul>
+        </footer>
+
+        <script src="/assets/build/js/main.js?id=0e9ef0390667f770cdd9"></script>
+
+        <script>
+    const navMenu = {
+        toggle() {
+            const menu = document.getElementById('js-nav-menu');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('lg:block');
+            document.getElementById('js-nav-menu-hide').classList.toggle('hidden');
+            document.getElementById('js-nav-menu-show').classList.toggle('hidden');
+        },
+    }
+</script>
+    </body>
+</html>
