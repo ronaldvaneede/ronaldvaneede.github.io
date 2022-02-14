@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="description" content="This is your first blog post.">
+
+        <meta property="og:title" content="Setting up a disposable development environment with Virtualbox, Vagrant and Ansible | Ronald van Eede"/>
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://ronaldvaneede.me/blog/disposable-development-environment-with-virtualbox"/>
+        <meta property="og:description" content="This is your first blog post." />
+
+        <title>Setting up a disposable development environment with Virtualbox, Vagrant and Ansible | Ronald van Eede</title>
+
+        <link rel="home" href="https://ronaldvaneede.me">
+        <link rel="icon" href="/favicon.ico">
+        <link href="/blog/feed.atom" type="application/atom+xml" rel="alternate" title="Ronald van Eede Atom Feed">
+
+                    <!-- Insert analytics code here -->
+        
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=f408e1e04850e7a8dac1">
+    </head>
+
+    <body class="flex flex-col justify-between min-h-screen bg-gray-100 text-gray-800 leading-normal font-sans">
+        <header class="flex items-center shadow bg-white border-b h-24 py-4" role="banner">
+            <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
+                <div class="flex items-center">
+                    <a href="/" title="Ronald van Eede home" class="inline-flex items-center">
+                        <!-- <img class="h-8 md:h-10 mr-3" src="/assets/img/logo.svg" alt="Ronald van Eede logo" /> -->
+
+                        <h1 class="text-lg md:text-2xl text-blue-800 font-semibold hover:text-blue-600 my-0">Ronald van Eede</h1>
+                    </a>
+                </div>
+
+                <div id="vue-search" class="flex flex-1 justify-end items-center">
+                    <search></search>
+
+                    <nav class="hidden lg:flex items-center justify-end text-lg">
+    <!--
+    <a title="Ronald van Eede Blog" href="/blog"
+        class="ml-6 text-gray-700 hover:text-blue-600 ">
+        Blog
+    </a>
+    
+    <a title="Ronald van Eede About" href="/about"
+        class="ml-6 text-gray-700 hover:text-blue-600 ">
+        About
+    </a>
+
+    <a title="Ronald van Eede Contact" href="/contact"
+        class="ml-6 text-gray-700 hover:text-blue-600 ">
+        Contact
+    </a>
+    -->
+</nav>
+
+                    <button class="flex justify-center items-center bg-blue-500 border border-blue-500 h-10 px-5 rounded-full lg:hidden focus:outline-none"
+    onclick="navMenu.toggle()"
+>
+    <svg id="js-nav-menu-show" xmlns="http://www.w3.org/2000/svg"
+        class="fill-current text-white h-9 w-4" viewBox="0 0 32 32"
+    >
+        <path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/>
+    </svg>
+
+    <svg id="js-nav-menu-hide" xmlns="http://www.w3.org/2000/svg"
+        class="hidden fill-current text-white h-9 w-4" viewBox="0 0 36 30"
+    >
+        <polygon points="32.8,4.4 28.6,0.2 18,10.8 7.4,0.2 3.2,4.4 13.8,15 3.2,25.6 7.4,29.8 18,19.2 28.6,29.8 32.8,25.6 22.2,15 "/>
+    </svg>
+</button>
+
+                </div>
+            </div>
+        </header>
+
+        <nav id="js-nav-menu" class="w-auto px-2 pt-6 pb-2 bg-gray-200 shadow hidden lg:hidden">
+    <!--
+    <ul class="my-0">
+        <li class="pl-4">
+            <a
+                title="Ronald van Eede Blog"
+                href="/blog"
+                class="block mt-0 mb-4 text-sm no-underline text-gray-800 hover:text-blue-500"
+            >Blog</a>
+        </li>
+        <li class="pl-4">
+            <a
+                title="Ronald van Eede About"
+                href="/about"
+                class="block mt-0 mb-4 text-sm no-underline text-gray-800 hover:text-blue-500"
+            >About</a>
+        </li>
+        <li class="pl-4">
+            <a
+                title="Ronald van Eede Contact"
+                href="/contact"
+                class="block mt-0 mb-4 text-sm no-underline text-gray-800 hover:text-blue-500"
+            >Contact</a>
+        </li>
+    </ul>
+    -->
+</nav>
+
+        <main role="main" class="flex-auto w-full container max-w-4xl mx-auto py-16 px-6">
+                        <img src="https://picsum.photos/seed/disposable/848/300" alt="Setting up a disposable development environment with Virtualbox, Vagrant and Ansible cover image" class="mb-2 rounded-md shadow-md">
+    
+    <h1 class="leading-none mb-2">Setting up a disposable development environment with Virtualbox, Vagrant and Ansible</h1>
+
+    <p class="text-gray-700 text-xl md:mt-0">Ronald van Eede  •  March 23, 2017  •  7 min read</p>
+
+                        <a
+                href="/blog/categories/Virtualbox"
+                title="View posts in Virtualbox"
+                class="inline-block bg-gray-300 hover:bg-blue-200 leading-loose tracking-wide text-gray-800 uppercase text-xs font-semibold rounded mr-4 px-3 pt-px"
+            >Virtualbox</a>
+                    <a
+                href="/blog/categories/Vagrant"
+                title="View posts in Vagrant"
+                class="inline-block bg-gray-300 hover:bg-blue-200 leading-loose tracking-wide text-gray-800 uppercase text-xs font-semibold rounded mr-4 px-3 pt-px"
+            >Vagrant</a>
+                    <a
+                href="/blog/categories/Ansible"
+                title="View posts in Ansible"
+                class="inline-block bg-gray-300 hover:bg-blue-200 leading-loose tracking-wide text-gray-800 uppercase text-xs font-semibold rounded mr-4 px-3 pt-px"
+            >Ansible</a>
+            
+    <div class="border-b border-blue-200 mb-10 pb-4" v-pre>
+        <p>A problem with working on many different projects is that your computer can become littered with all kinds of libraries, frameworks, tools and applications that you only need for one project. Sometimes you can even have problems with conflicting versions, for example one project needs version x of a framework and another project needs version y of that same framework, but you can have only one installed at the same.</p>
+
+<h2>Setting up a virtual development environment</h2>
+
+<p>Sometimes you can resolve that by using <a href="https://github.com/nvm-sh/nvm">Node Version Manager</a> for Nodejs or Ru<a href="https://rvm.io/">by Version Manager</a> for Ruby for example. But that is not always possible.<br />
+But after you stop working on that project and move on to another one that does not need those tools you still have them lingering around on your computer. You can of course uninstall them but who does that?</p>
+
+<p>A solution would be to create a disposable, easily recreate-able virtual development environment for each project or different kind of project. In this post I will describe how you could to that.</p>
+
+<h2>Tools you need</h2>
+
+<p>There are some tools you have to install:</p>
+
+<ul>
+<li>VirtualBox</li>
+<li>Vagrant</li>
+<li>Ansible</li>
+</ul>
+
+<h2>Virtualbox</h2>
+
+<p>This is an application that you can use to run virtual machines on your computer.
+Go to the <a href="https://www.virtualbox.org/wiki/Downloads">download page</a> and download and install the correct version for your operating system.</p>
+
+<h2>Vagrant</h2>
+
+<p>This tool works together with Virtualbox and makes it possible to easily create, start, provision, stop and destroy virtual machines and is often used to create disposable development environments.<br />
+Go to the <a href="https://www.vagrantup.com/downloads">downloads page</a> and download and install the correct version for your operating system.
+Ansible</p>
+
+<h2>Ansible</h2>
+
+<p>Ansible is a tool that can be used to provision one or more computers with the tools and software that is needed. This is done by describing the steps to install those in a tasks that are referred to in a playbook.</p>
+
+<p>Ansible cannot run from windows, it should be possible to use it from a Cygwin terminal but I had too many issues to get that working. For windows I use a workaround I will describe later. If you use OS X or Linus you can install Ansible on your computer.</p>
+
+<p>Go to the <a href="https://docs.ansible.com/ansible/intro_installation.html#installing-the-control-machine">downloads page</a> and download and install the correct version for your operating system.</p>
+
+<p>When you have those two or three tools installed you can continue.</p>
+
+<h2>Project setup</h2>
+
+<p>First create a directory for your project. Within that directory create another directory where you would place the source code of your application, for example <code>source</code>.<br />
+Then within your project directory create file named <code>Vagrantfile</code> and put this in the file:</p>
+
+<pre><code class="language-ruby"># -*- mode: ruby -*-
+# vi: set ft=ruby :
+require 'yaml'# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.synced_folder "/source", "/home/vagrant/source"config.vm.provider "virtualbox" do |vb|
+    vb.name = "development"
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+  end# you can remove this on OS X and Linux environments if you installed Ansible and enable the piece of code below.
+  config.vm.provision :shell,
+    :keep_color =&amp;gt; true,
+    :inline =&amp;gt; "export PYTHONUNBUFFERED=1 &amp;&amp; export ANSIBLE_FORCE_COLOR=1 &amp;&amp; cd /vagrant &amp;&amp; ./init.sh"
+
+  # this is not working on windows environments, so for now using above workaround
+  # config.vm.provision "ansible" do |ansible|
+  #   ansible.playbook = "playbook.yml"
+  # end
+end
+</code></pre>
+
+<p>For the Windows users, create a file named <code>init.sh</code> with this content (OS X and Linux users can skip this step):</p>
+
+<pre><code class="language-bash">#!/bin/bash
+
+if [ $(dpkg-query -W -f='${Status}' ansible 2&gt;/dev/null | grep -c "ok installed") -eq 0 ];
+then
+    echo "Add APT repositories"
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get install -qq software-properties-common &amp;&gt; /dev/null || exit 1
+    apt-add-repository ppa:ansible/ansible &amp;&gt; /dev/null || exit 1apt-get update -qqecho "Installing Ansible"
+    apt-get install -qq ansible &amp;&gt; /dev/null || exit 1
+    echo "Ansible installed"
+ficd /vagrant
+ansible-playbook -K playbook.yml --connection=local
+</code></pre>
+
+<p><em>Make sure this file has unix line endings.</em></p>
+
+<p>You can use Notepad++ to set the correct line endings but most other text editors should also be able to do this.<br />
+This wil will be executed during the provisioning phase and will install Ansible on the virtual machine and then run the Ansible playbook.</p>
+
+<p>Next we will create the playbook file, create a file named <code>playbook.yml</code> in the project directory.</p>
+
+<pre><code class="language-yaml">---
+- hosts: localhost
+  user: vagrant
+  roles:
+    - essentials
+    - apache
+</code></pre>
+
+<p>In this file we will define the roles that you want your environment to fulfill. Later we will define those roles.<br />
+Now we have to create a directory structure than Ansible understands so it can find the rest of the configuration.</p>
+
+<p>First you have to create a <code>roles</code> directory within your project folder. In that roles directory you then create a directory for each role. 
+So in my example you would create a directory <code>essentials</code> and <code>apache</code>.<br />
+Now within each of those directories you have to create a <code>tasks</code> directory so you would get this structure:</p>
+
+<pre><code>/project/Vagrantfile
+/project/init.sh
+/project/playbook.yml
+/project/source/
+/project/roles/essentials/
+/project/roles/apache/
+</code></pre>
+
+<p>In the <code>essentials</code> folder we now create a <code>main.yml</code> file to define the tasks that are needed to install the essentials on the virtual machine.</p>
+
+<pre><code class="language-yaml">- name: Update APT package cache
+  sudo: yes
+  apt: update_cache=yes
+
+- name: Install essentials
+  sudo: yes
+  apt: name="{{item}}" state=present
+  with_items:
+    - python-software-properties
+    - python-pycurl
+    - build-essential
+    - curl
+    - git-core
+    - unzip
+    - dos2unix
+</code></pre>
+
+<p>This will update the apt-get cache and then install a bunch of useful tools and libraries.</p>
+
+<p>And in the <code>apache</code> folder we create a <code>main.yml</code> file to define the tasks that are needed to install apache on the virtual machine.</p>
+
+<pre><code># Apache- name: Install Apache
+  sudo: yes
+  apt: name="{{item}}" state=present
+  with_items:
+    - apache2
+
+- name: Start the Apache service
+  sudo: yes
+  action: service name=apache2 state=started
+
+- name: Enable mod_rewrite
+  apache2_module: name=rewrite state=present
+
+- name: Enable mod_proxy
+  apache2_module: name=proxy state=present
+
+- name: Enable mod_proxy_balancer
+  apache2_module: name=proxy_balancer state=present
+
+- name: Enable mod_proxy_http
+  apache2_module: name=proxy_http state=present
+
+- name: Enable mod_lbmethod_byrequests
+  apache2_module: name=lbmethod_byrequests state=present
+
+- name: Enable mod_ssl
+  apache2_module: name=ssl state=present
+  notify:
+    - restart apache2
+</code></pre>
+
+<p>This task will install Apache2 with apt-get, install some modules and restart the Apache2 service.
+To restart the Apache2 service we call a handler that we have to create.<br />
+So to do this create a <code>handlers</code> folder in the <code>apache</code> folder and create a main.yml file with this content:</p>
+
+<pre><code>- name: restart apache2
+  service: name=apache2 state=restarted
+</code></pre>
+
+<p>So now you should have this directory and file structure:</p>
+
+<pre><code>/project/Vagrantfile
+/project/init.sh
+/project/playbook.yml
+/project/source/
+/project/roles/essentials/tasks/main.yml
+/project/roles/apache/tasks/main.yml
+/project/roles/apache/handlers/main.yml
+</code></pre>
+
+<h2>Vagrant</h2>
+
+<p>Now we are all set up we can start and provision the virtual machine.</p>
+
+<p>Open the command line and go to your project folder and then run the <code>vagrant up</code> command.
+The first time you do this Vagrant will first download the ubuntu/trusty64 base box if you do not already have it. This might take a while but once you have it you can reuse it for other projects.<br />
+After the base box is downloaded vagrant will configure it in Virtualbox and start it. when it is booted it will be provisioned according the the Ansible playbook we created before.<br />
+Once it's all finished you will have a basic virtual development environment ready with some essential tools and libraries installed and Apache.</p>
+
+<p>Other commands that you can use to control your virtual development environment are:</p>
+
+<ul>
+<li><code>vagrant reload</code> to restart the virtual environment</li>
+<li><code>vagrant halt</code> to stop the virtual environment</li>
+<li><code>vagrant destroy</code> to destroy the virtual environment</li>
+<li><code>vagrant provision</code> to (re)provision the virtual environment</li>
+<li><code>vagrant ssh</code> to open an ssh terminal to the virtual environment</li>
+</ul>
+
+<p>In another future post I will explain some more about using Vagrant and I will extend the playbook with some more roles.</p>
+    </div>
+
+    <nav class="flex justify-between text-sm md:text-base">
+        <div>
+                            <a href="https://ronaldvaneede.me/blog/my-first-blog-post" title="Older Post: My First Blog Post">
+                    &LeftArrow; My First Blog Post
+                </a>
+                    </div>
+
+        <div>
+                            <a href="https://ronaldvaneede.me/blog/mailchimp-newsletters" title="Newer Post: Mailchimp Newsletters">
+                    Mailchimp Newsletters &RightArrow;
+                </a>
+                    </div>
+    </nav>
+        </main>
+
+        <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo">
+            <ul class="flex flex-col md:flex-row justify-center list-none">
+                <li class="md:mr-2">
+                    Copyright &copy; 2022 Ronald van Eede</a>
+                </li>
+            </ul>
+        </footer>
+
+        <script src="/assets/build/js/main.js?id=0e9ef0390667f770cdd9"></script>
+
+        <script>
+    const navMenu = {
+        toggle() {
+            const menu = document.getElementById('js-nav-menu');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('lg:block');
+            document.getElementById('js-nav-menu-hide').classList.toggle('hidden');
+            document.getElementById('js-nav-menu-show').classList.toggle('hidden');
+        },
+    }
+</script>
+    </body>
+</html>

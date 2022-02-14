@@ -1,0 +1,610 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Ronald van Eede</title>
+    <link href="https://ronaldvaneede.me/blog" />
+    <link type="application/atom+xml" rel="self" href="https://ronaldvaneede.me/blog/feed.atom" />
+    <updated>2022-02-14T14:38:26+01:00</updated>
+    <id>https://ronaldvaneede.me/blog/feed.atom</id>
+    <author>
+        <name>Ronald van Eede</name>
+    </author>
+                <entry>
+    <id>https://ronaldvaneede.me/blog/disposable-development-environment-with-virtualbox</id>
+    <link type="text/html" rel="alternate" href="https://ronaldvaneede.me/blog/disposable-development-environment-with-virtualbox" />
+    <title>Setting up a disposable development environment with Virtualbox, Vagrant and Ansible</title>
+    <published>2017-03-23T01:00:00+01:00</published>
+    <updated>2017-03-23T01:00:00+01:00</updated>
+    <author>
+        <name>Ronald van Eede</name>
+    </author>
+    <summary type="html">A problem with working on many different projects is that your computer can become littered with all kinds of libraries, frameworks, tools and applications that you only need for one project. Sometimes you can even have problems with conflicting......</summary>
+    <content type="html"><![CDATA[
+        <p>A problem with working on many different projects is that your computer can become littered with all kinds of libraries, frameworks, tools and applications that you only need for one project. Sometimes you can even have problems with conflicting versions, for example one project needs version x of a framework and another project needs version y of that same framework, but you can have only one installed at the same.</p>
+
+<h2>Setting up a virtual development environment</h2>
+
+<p>Sometimes you can resolve that by using <a href="https://github.com/nvm-sh/nvm">Node Version Manager</a> for Nodejs or Ru<a href="https://rvm.io/">by Version Manager</a> for Ruby for example. But that is not always possible.<br />
+But after you stop working on that project and move on to another one that does not need those tools you still have them lingering around on your computer. You can of course uninstall them but who does that?</p>
+
+<p>A solution would be to create a disposable, easily recreate-able virtual development environment for each project or different kind of project. In this post I will describe how you could to that.</p>
+
+<h2>Tools you need</h2>
+
+<p>There are some tools you have to install:</p>
+
+<ul>
+<li>VirtualBox</li>
+<li>Vagrant</li>
+<li>Ansible</li>
+</ul>
+
+<h2>Virtualbox</h2>
+
+<p>This is an application that you can use to run virtual machines on your computer.
+Go to the <a href="https://www.virtualbox.org/wiki/Downloads">download page</a> and download and install the correct version for your operating system.</p>
+
+<h2>Vagrant</h2>
+
+<p>This tool works together with Virtualbox and makes it possible to easily create, start, provision, stop and destroy virtual machines and is often used to create disposable development environments.<br />
+Go to the <a href="https://www.vagrantup.com/downloads">downloads page</a> and download and install the correct version for your operating system.
+Ansible</p>
+
+<h2>Ansible</h2>
+
+<p>Ansible is a tool that can be used to provision one or more computers with the tools and software that is needed. This is done by describing the steps to install those in a tasks that are referred to in a playbook.</p>
+
+<p>Ansible cannot run from windows, it should be possible to use it from a Cygwin terminal but I had too many issues to get that working. For windows I use a workaround I will describe later. If you use OS X or Linus you can install Ansible on your computer.</p>
+
+<p>Go to the <a href="https://docs.ansible.com/ansible/intro_installation.html#installing-the-control-machine">downloads page</a> and download and install the correct version for your operating system.</p>
+
+<p>When you have those two or three tools installed you can continue.</p>
+
+<h2>Project setup</h2>
+
+<p>First create a directory for your project. Within that directory create another directory where you would place the source code of your application, for example <code>source</code>.<br />
+Then within your project directory create file named <code>Vagrantfile</code> and put this in the file:</p>
+
+<pre><code class="language-ruby"># -*- mode: ruby -*-
+# vi: set ft=ruby :
+require 'yaml'# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.synced_folder "/source", "/home/vagrant/source"config.vm.provider "virtualbox" do |vb|
+    vb.name = "development"
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+  end# you can remove this on OS X and Linux environments if you installed Ansible and enable the piece of code below.
+  config.vm.provision :shell,
+    :keep_color =&amp;gt; true,
+    :inline =&amp;gt; "export PYTHONUNBUFFERED=1 &amp;&amp; export ANSIBLE_FORCE_COLOR=1 &amp;&amp; cd /vagrant &amp;&amp; ./init.sh"
+
+  # this is not working on windows environments, so for now using above workaround
+  # config.vm.provision "ansible" do |ansible|
+  #   ansible.playbook = "playbook.yml"
+  # end
+end
+</code></pre>
+
+<p>For the Windows users, create a file named <code>init.sh</code> with this content (OS X and Linux users can skip this step):</p>
+
+<pre><code class="language-bash">#!/bin/bash
+
+if [ $(dpkg-query -W -f='${Status}' ansible 2&gt;/dev/null | grep -c "ok installed") -eq 0 ];
+then
+    echo "Add APT repositories"
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get install -qq software-properties-common &amp;&gt; /dev/null || exit 1
+    apt-add-repository ppa:ansible/ansible &amp;&gt; /dev/null || exit 1apt-get update -qqecho "Installing Ansible"
+    apt-get install -qq ansible &amp;&gt; /dev/null || exit 1
+    echo "Ansible installed"
+ficd /vagrant
+ansible-playbook -K playbook.yml --connection=local
+</code></pre>
+
+<p><em>Make sure this file has unix line endings.</em></p>
+
+<p>You can use Notepad++ to set the correct line endings but most other text editors should also be able to do this.<br />
+This wil will be executed during the provisioning phase and will install Ansible on the virtual machine and then run the Ansible playbook.</p>
+
+<p>Next we will create the playbook file, create a file named <code>playbook.yml</code> in the project directory.</p>
+
+<pre><code class="language-yaml">---
+- hosts: localhost
+  user: vagrant
+  roles:
+    - essentials
+    - apache
+</code></pre>
+
+<p>In this file we will define the roles that you want your environment to fulfill. Later we will define those roles.<br />
+Now we have to create a directory structure than Ansible understands so it can find the rest of the configuration.</p>
+
+<p>First you have to create a <code>roles</code> directory within your project folder. In that roles directory you then create a directory for each role. 
+So in my example you would create a directory <code>essentials</code> and <code>apache</code>.<br />
+Now within each of those directories you have to create a <code>tasks</code> directory so you would get this structure:</p>
+
+<pre><code>/project/Vagrantfile
+/project/init.sh
+/project/playbook.yml
+/project/source/
+/project/roles/essentials/
+/project/roles/apache/
+</code></pre>
+
+<p>In the <code>essentials</code> folder we now create a <code>main.yml</code> file to define the tasks that are needed to install the essentials on the virtual machine.</p>
+
+<pre><code class="language-yaml">- name: Update APT package cache
+  sudo: yes
+  apt: update_cache=yes
+
+- name: Install essentials
+  sudo: yes
+  apt: name="{{item}}" state=present
+  with_items:
+    - python-software-properties
+    - python-pycurl
+    - build-essential
+    - curl
+    - git-core
+    - unzip
+    - dos2unix
+</code></pre>
+
+<p>This will update the apt-get cache and then install a bunch of useful tools and libraries.</p>
+
+<p>And in the <code>apache</code> folder we create a <code>main.yml</code> file to define the tasks that are needed to install apache on the virtual machine.</p>
+
+<pre><code># Apache- name: Install Apache
+  sudo: yes
+  apt: name="{{item}}" state=present
+  with_items:
+    - apache2
+
+- name: Start the Apache service
+  sudo: yes
+  action: service name=apache2 state=started
+
+- name: Enable mod_rewrite
+  apache2_module: name=rewrite state=present
+
+- name: Enable mod_proxy
+  apache2_module: name=proxy state=present
+
+- name: Enable mod_proxy_balancer
+  apache2_module: name=proxy_balancer state=present
+
+- name: Enable mod_proxy_http
+  apache2_module: name=proxy_http state=present
+
+- name: Enable mod_lbmethod_byrequests
+  apache2_module: name=lbmethod_byrequests state=present
+
+- name: Enable mod_ssl
+  apache2_module: name=ssl state=present
+  notify:
+    - restart apache2
+</code></pre>
+
+<p>This task will install Apache2 with apt-get, install some modules and restart the Apache2 service.
+To restart the Apache2 service we call a handler that we have to create.<br />
+So to do this create a <code>handlers</code> folder in the <code>apache</code> folder and create a main.yml file with this content:</p>
+
+<pre><code>- name: restart apache2
+  service: name=apache2 state=restarted
+</code></pre>
+
+<p>So now you should have this directory and file structure:</p>
+
+<pre><code>/project/Vagrantfile
+/project/init.sh
+/project/playbook.yml
+/project/source/
+/project/roles/essentials/tasks/main.yml
+/project/roles/apache/tasks/main.yml
+/project/roles/apache/handlers/main.yml
+</code></pre>
+
+<h2>Vagrant</h2>
+
+<p>Now we are all set up we can start and provision the virtual machine.</p>
+
+<p>Open the command line and go to your project folder and then run the <code>vagrant up</code> command.
+The first time you do this Vagrant will first download the ubuntu/trusty64 base box if you do not already have it. This might take a while but once you have it you can reuse it for other projects.<br />
+After the base box is downloaded vagrant will configure it in Virtualbox and start it. when it is booted it will be provisioned according the the Ansible playbook we created before.<br />
+Once it's all finished you will have a basic virtual development environment ready with some essential tools and libraries installed and Apache.</p>
+
+<p>Other commands that you can use to control your virtual development environment are:</p>
+
+<ul>
+<li><code>vagrant reload</code> to restart the virtual environment</li>
+<li><code>vagrant halt</code> to stop the virtual environment</li>
+<li><code>vagrant destroy</code> to destroy the virtual environment</li>
+<li><code>vagrant provision</code> to (re)provision the virtual environment</li>
+<li><code>vagrant ssh</code> to open an ssh terminal to the virtual environment</li>
+</ul>
+
+<p>In another future post I will explain some more about using Vagrant and I will extend the playbook with some more roles.</p>
+    ]]></content>
+</entry>
+            <entry>
+    <id>https://ronaldvaneede.me/blog/mutation-testing</id>
+    <link type="text/html" rel="alternate" href="https://ronaldvaneede.me/blog/mutation-testing" />
+    <title>Mutation testing</title>
+    <published>2016-02-19T01:00:00+01:00</published>
+    <updated>2016-02-19T01:00:00+01:00</updated>
+    <author>
+        <name>Ronald van Eede</name>
+    </author>
+    <summary type="html">When you write code you also write tests to prove that your code works, right? But how do you know your tests are correct? How to test your tests? This is where Mutation Testing comes in. How does that work?...</summary>
+    <content type="html"><![CDATA[
+        <p>This is the original article, you can also find this article on my employer’s website.</p>
+
+<p>When you write code you also write tests to prove that your code works, right? But how do you know your tests are correct? How to test your tests?
+This is where Mutation Testing comes in. How does that work?</p>
+
+<p>The concept of mutation testing is simple, when you run your tests faults are automatically seeded into your code. If your tests fail the mutation is killed, are your tests still green? Then the mutation lived. So you can measure the quality of your tests by the amount of mutation that are killed.
+So you run your unit tests against automatically modified versions of your code. When the code changes different results will be produced and your tests should fail.
+Why?</p>
+
+<p>Why do you want to do this? We can measure quality with test coverage, right? This is only true up to a certain level. There is no guarantee that your tests can actually detect faults. Test coverage only measures which code is executed.
+How?</p>
+
+<p>So how do we do this with Java? There are some mutation testing systems for Java but the most widely used one is <a href="http://pitest.org/">PIT</a>.</p>
+
+<p>All you have to do to get started is to add a build plugin in your <code>pom.xml</code> and add some configuration for the classes you want to target and the tests that you want to use:</p>
+
+<pre><code class="language-xml">&lt;plugin&gt;
+    &lt;groupId&gt;org.pitest&lt;/groupId&gt;
+    &lt;artifactId&gt;pitest-maven&lt;/artifactId&gt;
+    &lt;version&gt;1.1.6&lt;/version&gt;
+    &lt;configuration&gt;
+        &lt;targetClasses&gt;
+            &lt;param&gt;com.vaneede.ronald.pittest.factory*&lt;/param&gt;
+        &lt;/targetClasses&gt;
+        &lt;targetTests&gt;
+            &lt;param&gt;com.vaneede.ronald.pittest.factory*&lt;/param&gt;
+        &lt;/targetTests&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;
+</code></pre>
+
+<p>Now you can use the <code>mvn org.pitest:pitest-maven:mutationCoverage</code> command to run the mutation tests, but make sure you have a green unit test suite first, because PIT needs that. there is also a plugin available for IntelliJ and Eclipse.</p>
+
+<p>To give it a try you can create a small Java project
+Create a <code>Movie.java</code> file with this content:</p>
+
+<pre><code class="language-java">package com.vaneede.ronald.pittest.entity;
+
+public class Movie {
+    private final String id;
+    private final String title;
+    private final String director;
+
+    public Movie(String id, String title, String director) {
+        this.id = id;
+        this.title = title;
+        this.director = director;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+}
+</code></pre>
+
+<p>And a <code>MovieFactory.java</code> file:</p>
+
+<pre><code class="language-java">package com.vaneede.ronald.pittest.factory;
+
+import com.vaneede.ronald.pittest.entity.Movie;
+import java.util.UUID;
+
+public class MovieFactory {
+    private static final int MIN_LENGTH = 3;
+
+    public Movie create(final String title, final String director) {
+        if (title == null) {
+            throw new IllegalArgumentException("title must be set");
+        }
+        if (title.length() &lt;= MIN_LENGTH) {
+            throw new IllegalArgumentException("title must have a minimal length of " + MIN_LENGTH);
+        }
+        if (director == null) {
+            throw new IllegalArgumentException("director must be set");
+        }
+
+        return new Movie(UUID.randomUUID().toString().toUpperCase(), title, director);
+    }
+}
+</code></pre>
+
+<p>And a test class, <code>MovieFactroyTest</code>:</p>
+
+<pre><code class="language-java">package com.vaneede.ronald.pitest.factory;
+
+import com.vaneede.ronald.pittest.entity.Movie;
+import com.vaneede.ronald.pittest.factory.MovieFactory;
+import org.junit.Test;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+
+public class MovieFactoryTest {
+    private static final String TITLE = "Pulp Fiction";
+    private static final String DIRECTOR = "Quentin Tarantino";
+
+    private final MovieFactory movieFactory = new MovieFactory();
+
+    @Test
+    public void shouldCreateMovie() throws Exception {
+        final Movie movie = movieFactory.create(TITLE, DIRECTOR);
+        assertThat(movie, notNullValue());
+        assertThat(movie.getTitle(), equalTo(TITLE));
+        assertThat(movie.getDirector(), equalTo(DIRECTOR));
+        assertThat(movie.getId(), not(isEmptyOrNullString()));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailCreateMovieWithNoTitleGiven() throws Exception {
+        movieFactory.create(null, DIRECTOR);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailCreateMovieWithNoDirectorGiven() throws Exception {
+        movieFactory.create(TITLE, null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailCreateMovieWithTooShortTitleGiven() throws Exception {
+        movieFactory.create("pf", DIRECTOR);
+    }
+}
+</code></pre>
+
+<p>When you run the tests with coverage you will see that all the code in the <code>MovieFactory</code> class is covered by the tests.
+So we tested everything, right? Not entirely. Let's run PIT.<br />
+PIT will run the tests again but it will make small changes to the code. It does this in-memory so it's fast and it does not change your actual code.
+It changes things like <code>==</code> to <code>!=</code>, <code>!=</code> to <code>==</code>, <code>&lt;=</code> to <code>&lt;</code>, return <code>true</code> instead of <code>false</code>, or <code>false</code> instead of <code>true</code> etcetera.</p>
+
+<pre><code>================================================================================
+- Statistics
+================================================================================
+&gt;&gt; Generated 8 mutations Killed 7 (88%)
+&gt;&gt; Ran 11 tests (1.38 tests per mutation)
+</code></pre>
+
+<p>So it looks like our tests killed 7 mutations, but 1 survived. Can you already find it?<br />
+Let's continue with the report summary:</p>
+
+<pre><code>================================================================================
+- Mutators
+================================================================================
+&gt; org.pitest.mutationtest.engine.gregor.mutators.ConditionalsBoundaryMutator
+&gt;&gt; Generated 1 Killed 0 (0%)
+&gt; KILLED 0 SURVIVED 1 TIMED_OUT 0 NON_VIABLE 0
+&gt; MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0
+&gt; NO_COVERAGE 0
+--------------------------------------------------------------------------------
+&gt; org.pitest.mutationtest.engine.gregor.mutators.ReturnValsMutator
+&gt;&gt; Generated 4 Killed 4 (100%)
+&gt; KILLED 4 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0
+&gt; MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0
+&gt; NO_COVERAGE 0
+--------------------------------------------------------------------------------
+&gt; org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator
+&gt;&gt; Generated 3 Killed 3 (100%)
+&gt; KILLED 3 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0
+&gt; MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0
+&gt; NO_COVERAGE 0
+--------------------------------------------------------------------------------
+</code></pre>
+
+<h2>Mutators</h2>
+
+<p>So PIT used three different kind of mutators: <code>ConditionalsBoundaryMutator</code>, <code>ReturnValsMutator</code> and <code>NegateConditionalsMutator</code>.<br />
+The <code>ConditionalsBoundaryMutator</code> changes <code>&lt;</code> to <code>&lt;=</code>, <code>&lt;=</code> to <code>&lt;</code>, <code>&gt;</code> to <code>&gt;=</code> and <code>&gt;=</code> to <code>&gt;</code>.<br />
+The <code>ReturnValsMutator</code> changes the return values of your methods, so if your method normally returns true it is mutated to return false instead. Or it the method normally returns an Object it will return null.<br />
+The <code>NegateConditionalsMutator</code> changes conditional statements, so it will change <code>==</code> to <code>!=</code>, <code>!=</code> to <code>==</code>, <code>&lt;=</code> to <code>&gt;</code>, <code>&gt;=</code> to <code>&lt;</code>, <code>&lt;</code> to <code>&gt;=</code> and <code>&gt;</code> to <code>&lt;=</code>. Besides these three mutators there are a total of 13 possible mutators, 7 of them are enabled by default, the others have to be enabled explicitly.<br />
+As you can see in the report above only 3 out of the 7 that are enabled by default where used, that is because the others where not applicable for the example code.So we have 1 mutation that survived, let's take a deeper look at that one. PIT generated a nice HTML report in the target directory so we can open that in the browser.</p>
+
+<p><img src="/assets/img/moviefactory.java.png" class="mb-6 rounded-md shadow-md"></p>
+
+<p>Light green shows line coverage.<br />
+Dark green shows mutation coverage.<br />
+Light pink show lack of line coverage.<br />
+Dark pink shows lack of mutation coverage.</p>
+
+<p>In the report you can see that there is a problem on line 14. PIT tested that line with a <code>NegateConditionalsMutator</code> and a <code>ConditionalsBoundaryMutator</code> mutator.
+As you can see in the list of Mutations the <code>ConditionalsBoundaryMutator</code> mutation caused a test to fail, so the mutant survived.<br />
+In this case this is because we only test for a movie title shorter than 3 characters but not for a title of exactly 3 characters. So by including mutation into our project we discovered that we where missing a test.<br />
+This is only one small example, there are a lot more mutators that can be used, like the <code>VoidMethodCalls</code> mutator that removed calls to void methods or the <code>MathMutator</code> that changes calculations in your code.</p>
+    ]]></content>
+</entry>
+            <entry>
+    <id>https://ronaldvaneede.me/blog/podcasts-for-developers</id>
+    <link type="text/html" rel="alternate" href="https://ronaldvaneede.me/blog/podcasts-for-developers" />
+    <title>Podcasts for developers</title>
+    <published>2016-02-16T01:00:00+01:00</published>
+    <updated>2016-02-16T01:00:00+01:00</updated>
+    <author>
+        <name>Ronald van Eede</name>
+    </author>
+    <summary type="html">If you are a software developer or web developer you have to keep up to speed with all kind of new developments.
+One good resource for that are podcasts. I spend about 2 hours a day in my car traveling to and from work, so that is a good time to catch up......</summary>
+    <content type="html"><![CDATA[
+        <p>If you are a software developer or web developer you have to keep up to speed with all kind of new developments.
+One good resource for that are podcasts. I spend about 2 hours a day in my car traveling to and from work, so that is a good time to catch up by listening to a podcast.</p>
+
+<p>Here is a list of some podcasts that I follow and find interesting.</p>
+
+<p><strong>The Laravel Podcast (<a href="http://www.laravelpodcast.com">http://www.laravelpodcast.com</a>)</strong></p>
+
+<p><em>Average episode length: 35 minutes</em><br />
+News and discussions about Laravel and PHP development by Matt Stauffer, Taylor Otwell and Jeffrey Way.</p>
+
+<p><strong>Dev Discussions (<a href="http://www.devdiscussions.com">http://www.devdiscussions.com</a>)</strong></p>
+
+<p><em>Average episode length: 1 hour</em><br />
+A podcast with discussions about all kind of development related topics such as Domain Driven Design, Functional Programming and Test Driven Development.</p>
+
+<p><strong>Full Stack Radio (<a href="http://www.fullstackradio.com">http://www.fullstackradio.com</a>)</strong></p>
+
+<p><em>Average episode length: 45 minutes</em><br />
+This is a A podcast by Adam Wathan. He is joined by a guest to talk about everything from product design and user experience to unit testing and system administration.</p>
+
+<p><strong>Laravel News Podcast (<a href="http://podcast.laravel-news.com">http://podcast.laravel-news.com</a>)</strong></p>
+
+<p><em>Average episode length: 30 minutes</em><br />
+All the latest news and events related to Laravel</p>
+
+<p><strong>Software Engineering Radio (<a href="http://www.se-radio.net">http://www.se-radio.net</a>)</strong></p>
+
+<p><em>Average episode length: 1 hour</em><br />
+The goal of this podcast is to be an educational resource, not a newscast.
+A episode covers all topics related to software engineering. Either tutorials on a specific topic, or an interview with a well-known expert from the software engineering world.</p>
+
+<p>Do you have any related Podcasts you follow and are not in this list? Let me know in the comments.</p>
+    ]]></content>
+</entry>
+            <entry>
+    <id>https://ronaldvaneede.me/blog/jfall-2015</id>
+    <link type="text/html" rel="alternate" href="https://ronaldvaneede.me/blog/jfall-2015" />
+    <title>J-Fall 2015</title>
+    <published>2015-11-08T01:00:00+01:00</published>
+    <updated>2015-11-08T01:00:00+01:00</updated>
+    <author>
+        <name>Ronald van Eede</name>
+    </author>
+    <summary type="html">Thursday November 5 it was time for the annual NLJUG conference, J-Fall 2015. This year the conference took place in the CineMec in Ede. The CineMec is a big cinema and conference center in the Netherlands. Like always the event was free of charge but......</summary>
+    <content type="html"><![CDATA[
+        <p>Thursday November 5 it was time for the annual NLJUG conference, <em>J-Fall 2015</em>. This year the conference took place in the CineMec in Ede. The CineMec is a big cinema and conference center in the Netherlands. Like always the event was free of charge but unlike before this was the first time they could house about 1500 people, had more room and more presentations. 42 in total with 54 speakers.</p>
+
+<p>There were a lot of interesting presentations. Of course there were some presentations about hot topics like Microservices and Docker, but there were also some interesting talks about <em>Vert.X</em> 3, <em>Ratpack</em>, and about the <em>Internet of Things</em> (IoT).</p>
+
+<p>All in all it was a nice conference with interesting talks that were not too low-level as you see on some other conferences.</p>
+    ]]></content>
+</entry>
+            <entry>
+    <id>https://ronaldvaneede.me/blog/goto-amsterdam-2015-conference</id>
+    <link type="text/html" rel="alternate" href="https://ronaldvaneede.me/blog/goto-amsterdam-2015-conference" />
+    <title>GOTO Amsterdam 2015</title>
+    <published>2015-11-08T01:00:00+01:00</published>
+    <updated>2015-11-08T01:00:00+01:00</updated>
+    <author>
+        <name>Ronald van Eede</name>
+    </author>
+    <summary type="html">On June 18 and June 19 I visited the GOTO Amsterdam 2015 conference at the ‘Beurs van Berlage’ in Amsterdam. Here is a short report....</summary>
+    <content type="html"><![CDATA[
+        <p>This is the original article, you can also find this article on my employer’s website.</p>
+
+<p>On June 18 and June 19 I visited the GOTO Amsterdam 2015 conference at the ‘Beurs van Berlage’ in Amsterdam. Here is a short report.</p>
+
+<p><img src="/assets/img/gotoams2015.png" class="mb-6 rounded-md shadow-md"></p>
+
+<p>The opening keynote on Thursday was done by Jeff Sutherland. He talked about three different types of organizations (US defence contractor (no name), Autodesk (CAD software) and Spotify) and now they are adapting to agile and scrum.</p>
+
+<p>After that is was time for the regular talks.</p>
+
+<p>On Thursday you could choose from 5 different tracks:
+Microservices, Scrum, AngularJS, ElasticSearch and Solutions.</p>
+
+<p>The first one I went to was '<em>From Hackathon to Production: Elasticsearch @ Facebook</em>' in the Elasticsearch track. In this talk Peter Vulgaris talked about how they moved from using Elasticsearch for a small hackathon self-service tool to using it all over the company and the issues they ran into with scaling.</p>
+
+<p>Next up was '<em>Deeper Data Dimensions with Kibana</em>' by Rashid Khan in the Elasticsearch track.
+He was talking about Kibana 4 and how you could use it to aggregate and visualize a large set of data using the new features of Kibana 4.</p>
+
+<p>After the lunch it was time for the Microservices track, Chris Richardson’s talk '<em>Developing Event-driven Microservices with Event Sourcing &amp; CQRS</em>' showed how you can make sure that your data stays consistent between multiple databases without using two-phase commit by using an event-driven architecture.</p>
+
+<p>After that it was time for a talk in the Solutions track, '<em>Mayfly — Dockerize your User Stories</em>' by Patrick van Dissel and Maarten Dirkse from Bol.com. They talked about the open-source tool they are working on called Mayfly. Mayfly is a tool that uses Docker to power a user story centered development platform. This tool allows you to easily develop a feature in an isolated environment. This tool takes care of the git branch, enforcing a definition of done and setting up a short-lived continuous integration pipeline to test the application running in a Docker container on Mesos.</p>
+
+<p>The last talk for this day was '<em>Step up your Game &amp; Bring your Projects to the Next Level</em>' by Olivier Combe in the AngularJS track.
+In this talk he showed different tools you can use to improve and modernize your front-end development workflow.</p>
+
+<p>The evening keynote was named '<em>Agile is Dead</em>' and was presented by Dave Thomas, one of the creators of the Agile Manifesto. He talked about how the industry slowly turned the 'The Manifesto for Agile Software Development' into ‘The Agile Manifesto’ in other words, a manifesto that is agile. Agile is a adjective. While it should be 'The Agility Manifesto*. “Agile is not what you do. Agility is how you do it”</p>
+
+<p>After some time for drinks and some food there was another keynote, '<em>Feedback Control &amp; the Coming Machine Revolution</em>' by Raffaello D’Andrea about drones and robots and the future for that.</p>
+
+<p>That concluded the thursday.</p>
+
+<p>The Friday started with a keynote by Prof. Dr. Gunter Dueck called '<em>Swarm-Stupidity</em>'. The stupid swarm, often called a team, is a group of intelligent people who are working very hard and suffering during lots of meetings for dumb outputs. It reveals some roots of stupidity: management utopia syndromes (like “Please achieve more than 100% billable hours”) lead to too much pressure that leads to process turbulences that leads to lots of meetings to resolve issues that leads to stress and overtime that leads to a lack of time to deliver quality work...</p>
+
+<p>On the Friday there were 6 tracks but on different subjects: Docker, Drones, Disruption, Hadoop, Lightning Talks and Solutions.</p>
+
+<p>My first talk was about '<em>Using Docker Safely</em>' by Adrian Mouat. In his talk he showed how you can make sure your images have not been tampered and how to mitigate the risk of container exploits.</p>
+
+<p>The next talk I went to was '<em>The Evolution of Hadoop at Spotify — Through Failures and Pain</em>' by Josh Baer and Rafal Wojdyla. They talked about how they grew from a few Hadoop machines to to aggregate played songs events for financial reports to their current cluster of over 900 nodes that plays a large role in many features that you use in their application today.</p>
+
+<p>Next up: ‘Kubernetes — Open Source Container Management System’ by Wojtek Tyczynski from Google. In this presentation he talked about how running applications in containers for over a decade affected the Kubernetes architecture. He explained how Kubernetes handles scheduling onto nodes in a compute cluster and manages workloads to ensure their state matches with what the user declared.</p>
+
+<p>Then it was again time for a presentation in the Docker track: ‘Docker as the Building Block for Datacenter-Scale Applications’ by Benjamin Hindman, co-creator of Mesos. He explained how leading companies like Twitter build distributed systems using Docker.</p>
+
+<p>The last regular presentation I visited was ‘Huge Memory &amp; Collection Oriented Programming -> Less Code More Speed?’ by Dave Thomas. He talked about what will happen when we have computers with 10 terabytes of non-volatile memory in a few years.</p>
+
+<p>The closing keynote was '<em>Progress Toward an Engineering Discipline of Software</em>' by Mary Shaw, Professor of Computer Science at the Carnegie Mellon University. She talked about the big question, is software engineering really engineering.<br />
+Classical engineering disciplines have emerged from craft practice and commercialization with a combination of codified knowledge and science. Using this pattern as a point of reference she sketched the evolution of software engineering to assess the maturity of the field and identify our challenges to really become engineering.</p>
+
+<h2>LT:DR;</h2>
+
+<p>GOTO Amsterdam 2015 was a really nice conference. They had about 730 visitors and the quality of the talks is good with some exceptions. It is well organized and I liked the 20 minute breaks between to talks so you did not had to hurry to go to the next talk. During lunch they had enough places where you could get food so no long waiting lines.<br />
+The location is also good, only 5 minutes walk from the Amsterdam Central train station.</p>
+
+<p>If you want to visit a conference in the future I would certainly recommend GOTO Amsterdam.</p>
+    ]]></content>
+</entry>
+            <entry>
+    <id>https://ronaldvaneede.me/blog/luminis-devcon-2015</id>
+    <link type="text/html" rel="alternate" href="https://ronaldvaneede.me/blog/luminis-devcon-2015" />
+    <title>Luminis Devcon 2015</title>
+    <published>2015-05-01T02:00:00+02:00</published>
+    <updated>2015-05-01T02:00:00+02:00</updated>
+    <author>
+        <name>Ronald van Eede</name>
+    </author>
+    <summary type="html">On April 23 I visited the Luminis Devcon 2015 conference, a small developers conference with about 350 visitors in the Cinemec in Ede. This was another opportunity to get some inspiration, learn some new things and to keep up to speed with what is happening in our field of work....</summary>
+    <content type="html"><![CDATA[
+        <p>This is the original article, you can also find this article on my employer’s website.</p>
+
+<p>On April 23 I visited the Luminis Devcon 2015 conference, a small developers conference with about 350 visitors in the Cinemec in Ede.
+This was another opportunity to get some inspiration, learn some new things and to keep up to speed with what is happening in our field of work.
+Just like many other recent conferences there where a few recurring subjects. Those subjects where the Cloud, Docker, Microservices and IoT (Internet of Things).<br />
+But of course there where also talks about other subjects like real-time data analysis, Continues Deployment, development processes and functional programming.</p>
+
+<p>The conference started with a small opening talk and the opening keynote. The opening keynote was presented by James Governor, co-founder of RedMonk.
+He talked about some of the trends that give developers the freedom to build what they want by levering the power of agile development, open source and cloud computing. The technology stacks used are less and less dictated by established powers but more and more by the developers themselves. They can create their own stacks and methodologies without asking permission.<br />
+He also talked about the disruptions that almost every industry faces today by well-funded startups. Think about Uber disrupting the cab industry and Airbnb doing the same to the Hotel industry. But also for example Github. With Github you could now follow the work of the most successful developers. Something that was nearly impossible a few years ago.</p>
+
+<p>After the keynote there was time for a short break and then the conference continued with 4 tracks with 3 one-hour time slots with other talks.
+I visited the talks about Docker, Microservices and Continues Deployment.</p>
+
+<p>The first talk I visited was called ‘To Docker and beyond — production grade cloud deployments’. This talk was presented by Paul Bakker en Arjan Schaaf and they talked about the migration of several Amazon EC2 cloud platform based applications to a Dockerized infrastructure on a public cloud. They assumed you already know the basics of docker and talked about some of the things you need to take into account when you start using containers in a production infrastructure.<br />
+Things like how do you start containers in a cluster? How do you link the containers together? And how do you register them to a loadbalancer. There are many tools available to help you with those kind of things. They explained the differences between tools like CoreOs, systemd, fleet, etcd, Consul and Kubernetes and when you can use which tool.</p>
+
+<p>After the Docker talk it was time to go to the next talk. I visited the talk about Microservices. During this talk Marcel Offermans talked about building applications using Microservices. Building large applications in a world that is rapidly evolving can be a challenge. You have to keep up with functional and non-functional requirements that change but also with new and better techniques and technologies. Building your application with Microservices can help you a lot with that, but only if you do it correct. Some of things you need to think about are maintainability. You have to be able to dispose or replace a single service without too much trouble.<br />
+Each microservice needs to own it’s own data, data should not be shared between microservices. These are only some examples. There is a lot more to think about. Another thing that is very important when doing microservices is automated deployment, you do not want to have to manually deploy dozens of microservices. and design for change and design for failure. Your microservices can fail and they will fail. If you design your infrastructure properly it will recover from failure without the users even noticing.<br />
+At the end of the talk Marcel gave a live demo of building microservices using OSGi. He created a small client-server application that allowed him to run multiple instances of a rest server with different means of loadbalancing between the servers. When one of the servers failed the other servers would take over the load and when the failed server came back it automatically continued processing requests.</p>
+
+<p>Now it was time for dinner. The dinner was well organized with small booths placed all around the venue where you could get all kind of different dishes and drinks. Of course the french fries where the most popular.</p>
+
+<p>Then it was time for the last talks. I went to the Continues Deployment talk ‘To production: from 7 months to 7 minutes in 7 sprints’. In this talk Herbert Schuurmans and Michaël van Leeuwen talked about how you could setup a fully working Continues Deployment pipeline in 7 sprints, extending the pipeline every sprint. In a time it is important to deliver new features as quickly as possible a Continues Deployment pipeline becomes more and more important.<br />
+To deploy your code in a production environment in a reliable way you need to automate the whole process and make it as fast as possible. Doing agile development means you want to get feedback from your customers as quickly as possible. So instead of building a complete product for months and then go live you have to go live with a so called minimal viable product, collect feedback and act on that feedback quickly and deploy a new version as fast as possible.<br />
+Some companies like for example Etsy deliver new features to production multiple times a day. They can do that because they fully automated their build street. Because they can deliver to production multiple times a day they can act on customer feedback very quickly.</p>
+
+<p>After the talks there was some time to get a drink and meet with other people. I also met a few former colleagues at the conference.
+The conference was closed with the possibility to watch the movie ‘The Imitation Game’.<br />
+This movie shows the story of Alan Turing and his work to crack the Enigma machine that was used in the second world war by the Germans to encrypt military messages. We do not know how the world would look like without him, but thanks to his work we can practice our profession as we know it today.</p>
+
+<p>In general the conference was nice. I expected the level of talks to be a bit higher then they turned out to be but even though I still learned some new things and get some refreshing inspiration.</p>
+    ]]></content>
+</entry>
+    </feed>
