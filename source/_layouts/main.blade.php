@@ -63,5 +63,7 @@
         <script src="{{ mix('js/main.js', 'assets/build') }}"></script>
 
         @stack('scripts')
+
+        {!! $page->analytics_snippet !!}
     </body>
 </html>

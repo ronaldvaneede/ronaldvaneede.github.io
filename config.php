@@ -8,6 +8,7 @@ return [
     'siteName' => 'Ronald van Eede',
     'siteDescription' => 'Web Developer — Java Engineer - DevOps engineer',
     'siteAuthor' => 'Ronald van Eede',
+    'analytics_snippet' => '<script defer data-domain="ronaldvaneede.me" src=""></script>',
 
     // collections
     'collections' => [
