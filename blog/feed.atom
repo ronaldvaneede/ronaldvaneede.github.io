@@ -3,7 +3,7 @@
     <title>Ronald van Eede</title>
     <link href="https://ronaldvaneede.me/blog" />
     <link type="application/atom+xml" rel="self" href="https://ronaldvaneede.me/blog/feed.atom" />
-    <updated>2022-02-21T13:48:22+01:00</updated>
+    <updated>2022-02-21T14:20:33+01:00</updated>
     <id>https://ronaldvaneede.me/blog/feed.atom</id>
     <author>
         <name>Ronald van Eede</name>
@@ -152,7 +152,7 @@ Now within each of those directories you have to create a <code>tasks</code> dir
 
 <p>And in the <code>apache</code> folder we create a <code>main.yml</code> file to define the tasks that are needed to install apache on the virtual machine.</p>
 
-<pre><code># Apache- name: Install Apache
+<pre><code class="language-yaml"># Apache- name: Install Apache
   sudo: yes
   apt: name="{{item}}" state=present
   with_items:
@@ -187,7 +187,7 @@ Now within each of those directories you have to create a <code>tasks</code> dir
 To restart the Apache2 service we call a handler that we have to create.<br />
 So to do this create a <code>handlers</code> folder in the <code>apache</code> folder and create a main.yml file with this content:</p>
 
-<pre><code>- name: restart apache2
+<pre><code class="language-yaml">- name: restart apache2
   service: name=apache2 state=restarted
 </code></pre>
 
