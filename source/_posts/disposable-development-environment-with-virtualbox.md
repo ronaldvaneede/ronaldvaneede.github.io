@@ -62,7 +62,8 @@ VAGRANTFILE_API_VERSION = "2"Vagrant.configure(VAGRANTFILE_API_VERSION) do |conf
   config.vm.synced_folder "/source", "/home/vagrant/source"config.vm.provider "virtualbox" do |vb|
     vb.name = "development"
     vb.customize ["modifyvm", :id, "--memory", "1024"]
-  end# you can remove this on OS X and Linux environments if you installed Ansible and enable the piece of code below.
+  end
+  # you can remove this on OS X and Linux environments if you installed Ansible and enable the piece of code below.
   config.vm.provision :shell,
     :keep_color =&gt; true,
     :inline =&gt; "export PYTHONUNBUFFERED=1 && export ANSIBLE_FORCE_COLOR=1 && cd /vagrant && ./init.sh"
@@ -76,7 +77,7 @@ end
 
 For the Windows users, create a file named `init.sh` with this content (OS X and Linux users can skip this step):
 
-```bash
+```shell
 #!/bin/bash
 
 if [ $(dpkg-query -W -f='${Status}' ansible 2>/dev/null | grep -c "ok installed") -eq 0 ];
@@ -99,7 +100,6 @@ This wil will be executed during the provisioning phase and will install Ansible
 Next we will create the playbook file, create a file named `playbook.yml` in the project directory.
 
 ```yaml
----
 - hosts: localhost
   user: vagrant
   roles:
@@ -114,7 +114,7 @@ First you have to create a `roles` directory within your project folder. In that
 So in my example you would create a directory `essentials` and `apache`.  
 Now within each of those directories you have to create a `tasks` directory so you would get this structure:
 
-```
+```text
 /project/Vagrantfile
 /project/init.sh
 /project/playbook.yml
@@ -148,7 +148,7 @@ This will update the apt-get cache and then install a bunch of useful tools and 
 And in the `apache` folder we create a `main.yml` file to define the tasks that are needed to install apache on the virtual machine.
 
 ```yaml
-# Apache- name: Install Apache
+- name: Install Apache
   sudo: yes
   apt: name="{{item}}" state=present
   with_items:
@@ -190,7 +190,7 @@ So to do this create a `handlers` folder in the `apache` folder and create a mai
 
 So now you should have this directory and file structure:
 
-```
+```text
 /project/Vagrantfile
 /project/init.sh
 /project/playbook.yml
