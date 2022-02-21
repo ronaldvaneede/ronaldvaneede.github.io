@@ -3,12 +3,32 @@
     <title>Ronald van Eede</title>
     <link href="https://ronaldvaneede.me/blog" />
     <link type="application/atom+xml" rel="self" href="https://ronaldvaneede.me/blog/feed.atom" />
-    <updated>2022-02-21T15:22:09+01:00</updated>
+    <updated>2022-02-21T15:32:43+01:00</updated>
     <id>https://ronaldvaneede.me/blog/feed.atom</id>
     <author>
         <name>Ronald van Eede</name>
     </author>
                 <entry>
+    <id>https://ronaldvaneede.me/blog/a-new-beginning</id>
+    <link type="text/html" rel="alternate" href="https://ronaldvaneede.me/blog/a-new-beginning" />
+    <title>A new beginning</title>
+    <published>2022-02-21T01:00:00+01:00</published>
+    <updated>2022-02-21T01:00:00+01:00</updated>
+    <author>
+        <name>Ronald van Eede</name>
+    </author>
+    <summary type="html">I&#039;ve decided to make a new beginning with this blog.
+First of all I&#039;ve moved this blog from hosting at Medium to GitHub pages.
+Second of all I&#039;ve been using Jigsaw as static site generator to generate my pages.
+I still have some changes to make but I&#039;m......</summary>
+    <content type="html"><![CDATA[
+        <p>I've decided to make a new beginning with this blog.<br />
+First of all I've moved this blog from hosting at Medium to GitHub pages.<br />
+Second of all I've been using <a href="https://jigsaw.tighten.co">Jigsaw</a> as static site generator to generate my pages.<br />
+I still have some changes to make but I'm quite happy with the current state so I decided to publish it.</p>
+    ]]></content>
+</entry>
+            <entry>
     <id>https://ronaldvaneede.me/blog/disposable-development-environment-with-virtualbox</id>
     <link type="text/html" rel="alternate" href="https://ronaldvaneede.me/blog/disposable-development-environment-with-virtualbox" />
     <title>Setting up a disposable development environment</title>
