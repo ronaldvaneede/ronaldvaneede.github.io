@@ -2,14 +2,22 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <meta name="robots" content="index,follow" />
+        <meta name="googlebot" content="index,follow" />
         <meta name="description" content="{{ $page->description ?? $page->siteDescription }}">
 
         <meta property="og:title" content="{{ $page->title ? $page->title . ' | ' : '' }}{{ $page->siteName }}"/>
         <meta property="og:type" content="{{ $page->type ?? 'website' }}" />
         <meta property="og:url" content="{{ $page->getUrl() }}"/>
         <meta property="og:description" content="{{ $page->description ?? $page->siteDescription }}" />
+
+        <meta name="twitter:site" content="@ronaldvaneede" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="{{ $page->title ? $page->title . ' | ' : '' }}{{ $page->siteName }}" />
+        <meta name="twitter:description" content="{{ $page->description ?? $page->siteDescription }}" />
 
         <title>{{ $page->title ?  $page->title . ' | ' : '' }}{{ $page->siteName }}</title>
 

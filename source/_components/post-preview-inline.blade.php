@@ -29,15 +29,24 @@
     <a href="{{ $post->getUrl() }}">
         <img alt="{{ $post->title }} cover image" src="{{ $post->cover_image }}" class="max-h-60 w-full object-cover"/>
         <div class="p-4">
-            <p class="text-gray-800 text-3xl font-medium mb-0">
+            <h1 class="text-gray-800 mb-0">
                 {{ $post->title }}
-            </p>
+            </h1>
             <p class="text-gray-600 text-sm mb-2">
                 {{ $post->getDate()->format('F j, Y') }} - {{ $post->estimate_reading_time }}
             </p>
-            <p class="text-gray-600 font-light text-md">
+            <p class="text-gray-600 font-medium text-md">
                 {!! $post->getExcerpt(200) !!}
             </p>
+            @if ($post->categories)
+                @foreach ($post->categories as $i => $category)
+                    <a
+                        href="{{ '/blog/categories/' . $category }}"
+                        title="View posts in {{ $category }}"
+                        class="inline-block bg-gray-300 hover:bg-blue-200 leading-loose tracking-wide text-gray-800 uppercase text-xs font-semibold rounded mr-4 px-3 pt-px"
+                    >{{ $category }}</a>
+                @endforeach
+            @endif
         </div>
     </a>
 </div>

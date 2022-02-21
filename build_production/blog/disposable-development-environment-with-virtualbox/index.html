@@ -2,14 +2,22 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <meta name="robots" content="index,follow" />
+        <meta name="googlebot" content="index,follow" />
         <meta name="description" content="This is your first blog post.">
 
         <meta property="og:title" content="Setting up a disposable development environment | Ronald van Eede"/>
         <meta property="og:type" content="article" />
         <meta property="og:url" content="https://ronaldvaneede.me/blog/disposable-development-environment-with-virtualbox"/>
         <meta property="og:description" content="This is your first blog post." />
+
+        <meta name="twitter:site" content="@ronaldvaneede" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Setting up a disposable development environment | Ronald van Eede" />
+        <meta name="twitter:description" content="This is your first blog post." />
 
         <title>Setting up a disposable development environment | Ronald van Eede</title>
 
@@ -20,7 +28,7 @@
                 <script defer data-domain="ronaldvaneede.me" src="https://plausible.io/js/plausible.js"></script>
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=0628d6c5920b15403468">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=a3e55d84cb94f1c45145">
     </head>
 
     <body class="flex flex-col justify-between min-h-screen bg-gray-100 text-gray-800 leading-normal font-sans">
@@ -122,11 +130,32 @@
                     <img alt="Setting up a disposable development environment cover image" src="https://picsum.photos/seed/disposable/848/300" class="max-h-60 w-full object-cover"/>
                 
         <div class="p-4">
-            <h1 class="text-gray-800">
+            <h1 class="text-gray-800 mb-0">
                 Setting up a disposable development environment
             </h1>
 
-            <p>A problem with working on many different projects is that your computer can become littered with all kinds of libraries, frameworks, tools and applications that you only need for one project. Sometimes you can even have problems with conflicting versions, for example one project needs version x of a framework and another project needs version y of that same framework, but you can have only one installed at the same.</p>
+            <p class="text-gray-700">
+                Ronald van Eede • March 23, 2017 • 7 min read
+            </p>
+
+                                                <a
+                        href="/blog/categories/Virtualbox"
+                        title="View posts in Virtualbox"
+                        class="inline-block bg-gray-300 hover:bg-blue-200 leading-loose tracking-wide text-gray-800 uppercase text-xs font-semibold rounded mr-4 px-3 pt-px"
+                    >Virtualbox</a>
+                                    <a
+                        href="/blog/categories/Vagrant"
+                        title="View posts in Vagrant"
+                        class="inline-block bg-gray-300 hover:bg-blue-200 leading-loose tracking-wide text-gray-800 uppercase text-xs font-semibold rounded mr-4 px-3 pt-px"
+                    >Vagrant</a>
+                                    <a
+                        href="/blog/categories/Ansible"
+                        title="View posts in Ansible"
+                        class="inline-block bg-gray-300 hover:bg-blue-200 leading-loose tracking-wide text-gray-800 uppercase text-xs font-semibold rounded mr-4 px-3 pt-px"
+                    >Ansible</a>
+                            
+            <div class="text-gray-600 font-medium text-m">
+                <p>A problem with working on many different projects is that your computer can become littered with all kinds of libraries, frameworks, tools and applications that you only need for one project. Sometimes you can even have problems with conflicting versions, for example one project needs version x of a framework and another project needs version y of that same framework, but you can have only one installed at the same.</p>
 
 <p>Sometimes you can resolve that by using <a href="https://github.com/nvm-sh/nvm">Node Version Manager</a> for Nodejs or <a href="https://rvm.io/">Ruby Version Manager</a> for Ruby for example. But that is not always possible.<br />
 But after you stop working on that project and move on to another one that does not need those tools you still have them lingering around on your computer. You can of course uninstall them but who does that?</p>
@@ -259,7 +288,7 @@ Now within each of those directories you have to create a <code>tasks</code> dir
 
 <p>And in the <code>apache</code> folder we create a <code>main.yml</code> file to define the tasks that are needed to install apache on the virtual machine.</p>
 
-<pre><code># Apache- name: Install Apache
+<pre><code class="language-yaml"># Apache- name: Install Apache
   sudo: yes
   apt: name="{{item}}" state=present
   with_items:
@@ -294,7 +323,7 @@ Now within each of those directories you have to create a <code>tasks</code> dir
 To restart the Apache2 service we call a handler that we have to create.<br />
 So to do this create a <code>handlers</code> folder in the <code>apache</code> folder and create a main.yml file with this content:</p>
 
-<pre><code>- name: restart apache2
+<pre><code class="language-yaml">- name: restart apache2
   service: name=apache2 state=restarted
 </code></pre>
 
@@ -329,9 +358,9 @@ Once it's all finished you will have a basic virtual development environment rea
 </ul>
 
 <p>In another future post I will explain some more about using Vagrant and I will extend the playbook with some more roles.</p>
+            </div>
         </div>
     </div>
-    
 
     <nav class="flex justify-between text-sm md:text-base">
         <div>

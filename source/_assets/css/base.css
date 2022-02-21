@@ -57,17 +57,17 @@ h6 {
 }
 
 h1 {
-    @apply text-5xl;
-    @apply font-semibold;
-}
-
-h2 {
     @apply text-4xl;
     @apply font-medium;
 }
 
-h3 {
+h2 {
     @apply text-3xl;
+    @apply font-medium;
+}
+
+h3 {
+    @apply text-2xl;
     @apply font-medium;
 }
 

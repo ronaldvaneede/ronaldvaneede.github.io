@@ -147,7 +147,7 @@ This will update the apt-get cache and then install a bunch of useful tools and 
 
 And in the `apache` folder we create a `main.yml` file to define the tasks that are needed to install apache on the virtual machine.
 
-```
+```yaml
 # Apache- name: Install Apache
   sudo: yes
   apt: name="{{item}}" state=present
@@ -183,7 +183,7 @@ This task will install Apache2 with apt-get, install some modules and restart th
 To restart the Apache2 service we call a handler that we have to create.  
 So to do this create a `handlers` folder in the `apache` folder and create a main.yml file with this content:
 
-```
+```yaml
 - name: restart apache2
   service: name=apache2 state=restarted
 ```
