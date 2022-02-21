@@ -60,10 +60,13 @@
             @yield('body')
         </main>
 
-        <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo">
+        <footer class="bg-white text-center text-sm mt-12 py-4 text-gray-400" role="contentinfo">
             <ul class="flex flex-col md:flex-row justify-center list-none">
                 <li class="md:mr-2">
-                    Copyright &copy; {{ date('Y') }} Ronald van Eede</a>
+                    Copyright &copy; {{ date('Y') }} Ronald van Eede.
+                </li>
+                <li class="md:mr-2">
+                    Syntax highlighting by <a href="https://torchlight.dev/" target="_blank">Torchlight</a>.
                 </li>
             </ul>
         </footer>
