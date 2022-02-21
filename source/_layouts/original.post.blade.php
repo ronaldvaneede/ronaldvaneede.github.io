@@ -5,20 +5,6 @@
 @endphp
 
 @section('body')
-    <div class="overflow-hidden shadow-lg rounded-lg bg-white mb-12">
-        @if ($page->cover_image)
-            <img alt="{{ $page->title }} cover image" src="{{ $page->cover_image }}" class="max-h-60 w-full object-cover"/>
-        @endif
-        
-        <div class="p-4">
-            <h1 class="text-gray-800">
-                {{ $page->title }}
-            </h1>
-
-            @yield('content')
-        </div>
-    </div>
-    {{-- 
     @if ($page->cover_image)
         <img src="{{ $page->cover_image }}" alt="{{ $page->title }} cover image" class="mb-2 rounded-md shadow-md">
     @endif
@@ -40,7 +26,6 @@
     <div class="border-b border-blue-200 mb-10 pb-4" v-pre>
         @yield('content')
     </div>
-    --}}
 
     <nav class="flex justify-between text-sm md:text-base">
         <div>
@@ -58,6 +43,5 @@
                 </a>
             @endif
         </div>
-    </nav> 
-    
+    </nav>
 @endsection

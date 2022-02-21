@@ -15,6 +15,17 @@ return [
             'author' => 'Ronald van Eede', // Default author, if not provided in a post
             'sort' => '-date',
             'path' => 'blog/{filename}',
+            'filter' => function ($item) {
+                return $item->published;
+            }
+        ],
+        'tools' => [
+            'author' => 'Ronald van Eede', // Default author, if not provided in a post
+            'sort' => '-date',
+            'path' => 'tools/{filename}',
+            'filter' => function ($item) {
+               return $item->published;
+            }
         ],
         'categories' => [
             'path' => '/blog/categories/{filename}',

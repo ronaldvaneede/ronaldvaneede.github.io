@@ -1,21 +1,19 @@
 ---
 extends: _layouts.post
 section: content
-title: Setting up a disposable development environment with Virtualbox, Vagrant and Ansible
+title: Setting up a disposable development environment
 author: Ronald van Eede
 date: 2017-03-23
 description: This is your first blog post.
 cover_image: https://picsum.photos/seed/disposable/848/300
 published: true
-featured: false
+featured: true
 categories: [Virtualbox,Vagrant,Ansible]
 ---
 
 A problem with working on many different projects is that your computer can become littered with all kinds of libraries, frameworks, tools and applications that you only need for one project. Sometimes you can even have problems with conflicting versions, for example one project needs version x of a framework and another project needs version y of that same framework, but you can have only one installed at the same.
 
-## Setting up a virtual development environment
-
-Sometimes you can resolve that by using [Node Version Manager](https://github.com/nvm-sh/nvm) for Nodejs or Ru[by Version Manager](https://rvm.io/) for Ruby for example. But that is not always possible.  
+Sometimes you can resolve that by using [Node Version Manager](https://github.com/nvm-sh/nvm) for Nodejs or [Ruby Version Manager](https://rvm.io/) for Ruby for example. But that is not always possible.  
 But after you stop working on that project and move on to another one that does not need those tools you still have them lingering around on your computer. You can of course uninstall them but who does that?
 
 A solution would be to create a disposable, easily recreate-able virtual development environment for each project or different kind of project. In this post I will describe how you could to that.
