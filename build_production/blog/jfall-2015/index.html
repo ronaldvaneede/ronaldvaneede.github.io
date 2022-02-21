@@ -20,12 +20,12 @@
                 <script defer data-domain="ronaldvaneede.me" src="https://plausible.io/js/plausible.js"></script>
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=f408e1e04850e7a8dac1">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=0628d6c5920b15403468">
     </head>
 
     <body class="flex flex-col justify-between min-h-screen bg-gray-100 text-gray-800 leading-normal font-sans">
-        <header class="flex items-center shadow bg-white border-b h-24 py-4" role="banner">
-            <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
+        <header class="flex items-center shadow-md bg-white border-b h-24 py-4" role="banner">
+            <div class="container flex items-center max-w-6xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
                     <a href="/" title="Ronald van Eede home" class="inline-flex items-center">
                         <!-- <img class="h-8 md:h-10 mr-3" src="/assets/img/logo.svg" alt="Ronald van Eede logo" /> -->
@@ -38,12 +38,18 @@
                     <search></search>
 
                     <nav class="hidden lg:flex items-center justify-end text-lg">
-    <!--
+    
     <a title="Ronald van Eede Blog" href="/blog"
         class="ml-6 text-gray-700 hover:text-blue-600 ">
         Blog
     </a>
+
+    <a title="Ronald van Eede Tools" href="/tools"
+        class="ml-6 text-gray-700 hover:text-blue-600 ">
+        Tools
+    </a>
     
+    <!--
     <a title="Ronald van Eede About" href="/about"
         class="ml-6 text-gray-700 hover:text-blue-600 ">
         About
@@ -77,7 +83,6 @@
         </header>
 
         <nav id="js-nav-menu" class="w-auto px-2 pt-6 pb-2 bg-gray-200 shadow hidden lg:hidden">
-    <!--
     <ul class="my-0">
         <li class="pl-4">
             <a
@@ -86,6 +91,14 @@
                 class="block mt-0 mb-4 text-sm no-underline text-gray-800 hover:text-blue-500"
             >Blog</a>
         </li>
+        <li class="pl-4">
+            <a
+                title="Ronald van Eede Tools"
+                href="/tools"
+                class="block mt-0 mb-4 text-sm no-underline text-gray-800 hover:text-blue-500"
+            >Tools</a>
+        </li>
+        <!--
         <li class="pl-4">
             <a
                 title="Ronald van Eede About"
@@ -100,30 +113,27 @@
                 class="block mt-0 mb-4 text-sm no-underline text-gray-800 hover:text-blue-500"
             >Contact</a>
         </li>
+        -->
     </ul>
-    -->
 </nav>
 
-        <main role="main" class="flex-auto w-full container max-w-4xl mx-auto py-16 px-6">
-                        <img src="https://picsum.photos/seed/jfall/848/300" alt="J-Fall 2015 cover image" class="mb-2 rounded-md shadow-md">
-    
-    <h1 class="leading-none mb-2">J-Fall 2015</h1>
+        <main role="main" class="flex-auto w-full container max-w-6xl mx-auto py-16 px-6">
+                <div class="overflow-hidden shadow-lg rounded-lg bg-white mb-12">
+                    <img alt="J-Fall 2015 cover image" src="https://picsum.photos/seed/jfall/848/300" class="max-h-60 w-full object-cover"/>
+                
+        <div class="p-4">
+            <h1 class="text-gray-800">
+                J-Fall 2015
+            </h1>
 
-    <p class="text-gray-700 text-xl md:mt-0">Ronald van Eede  •  November 8, 2015  •  37 sec read</p>
-
-                        <a
-                href="/blog/categories/Conference"
-                title="View posts in Conference"
-                class="inline-block bg-gray-300 hover:bg-blue-200 leading-loose tracking-wide text-gray-800 uppercase text-xs font-semibold rounded mr-4 px-3 pt-px"
-            >Conference</a>
-            
-    <div class="border-b border-blue-200 mb-10 pb-4" v-pre>
-        <p>Thursday November 5 it was time for the annual NLJUG conference, <em>J-Fall 2015</em>. This year the conference took place in the CineMec in Ede. The CineMec is a big cinema and conference center in the Netherlands. Like always the event was free of charge but unlike before this was the first time they could house about 1500 people, had more room and more presentations. 42 in total with 54 speakers.</p>
+            <p>Thursday November 5 it was time for the annual NLJUG conference, <em>J-Fall 2015</em>. This year the conference took place in the CineMec in Ede. The CineMec is a big cinema and conference center in the Netherlands. Like always the event was free of charge but unlike before this was the first time they could house about 1500 people, had more room and more presentations. 42 in total with 54 speakers.</p>
 
 <p>There were a lot of interesting presentations. Of course there were some presentations about hot topics like Microservices and Docker, but there were also some interesting talks about <em>Vert.X</em> 3, <em>Ratpack</em>, and about the <em>Internet of Things</em> (IoT).</p>
 
 <p>All in all it was a nice conference with interesting talks that were not too low-level as you see on some other conferences.</p>
+        </div>
     </div>
+    
 
     <nav class="flex justify-between text-sm md:text-base">
         <div>
@@ -137,7 +147,8 @@
                     Podcasts for developers &RightArrow;
                 </a>
                     </div>
-    </nav>
+    </nav> 
+    
         </main>
 
         <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo">

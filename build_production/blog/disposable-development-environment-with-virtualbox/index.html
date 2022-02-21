@@ -6,12 +6,12 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="description" content="This is your first blog post.">
 
-        <meta property="og:title" content="Setting up a disposable development environment with Virtualbox, Vagrant and Ansible | Ronald van Eede"/>
+        <meta property="og:title" content="Setting up a disposable development environment | Ronald van Eede"/>
         <meta property="og:type" content="article" />
         <meta property="og:url" content="https://ronaldvaneede.me/blog/disposable-development-environment-with-virtualbox"/>
         <meta property="og:description" content="This is your first blog post." />
 
-        <title>Setting up a disposable development environment with Virtualbox, Vagrant and Ansible | Ronald van Eede</title>
+        <title>Setting up a disposable development environment | Ronald van Eede</title>
 
         <link rel="home" href="https://ronaldvaneede.me">
         <link rel="icon" href="/favicon.ico">
@@ -20,12 +20,12 @@
                 <script defer data-domain="ronaldvaneede.me" src="https://plausible.io/js/plausible.js"></script>
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=f408e1e04850e7a8dac1">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=0628d6c5920b15403468">
     </head>
 
     <body class="flex flex-col justify-between min-h-screen bg-gray-100 text-gray-800 leading-normal font-sans">
-        <header class="flex items-center shadow bg-white border-b h-24 py-4" role="banner">
-            <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
+        <header class="flex items-center shadow-md bg-white border-b h-24 py-4" role="banner">
+            <div class="container flex items-center max-w-6xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
                     <a href="/" title="Ronald van Eede home" class="inline-flex items-center">
                         <!-- <img class="h-8 md:h-10 mr-3" src="/assets/img/logo.svg" alt="Ronald van Eede logo" /> -->
@@ -38,12 +38,18 @@
                     <search></search>
 
                     <nav class="hidden lg:flex items-center justify-end text-lg">
-    <!--
+    
     <a title="Ronald van Eede Blog" href="/blog"
         class="ml-6 text-gray-700 hover:text-blue-600 ">
         Blog
     </a>
+
+    <a title="Ronald van Eede Tools" href="/tools"
+        class="ml-6 text-gray-700 hover:text-blue-600 ">
+        Tools
+    </a>
     
+    <!--
     <a title="Ronald van Eede About" href="/about"
         class="ml-6 text-gray-700 hover:text-blue-600 ">
         About
@@ -77,7 +83,6 @@
         </header>
 
         <nav id="js-nav-menu" class="w-auto px-2 pt-6 pb-2 bg-gray-200 shadow hidden lg:hidden">
-    <!--
     <ul class="my-0">
         <li class="pl-4">
             <a
@@ -86,6 +91,14 @@
                 class="block mt-0 mb-4 text-sm no-underline text-gray-800 hover:text-blue-500"
             >Blog</a>
         </li>
+        <li class="pl-4">
+            <a
+                title="Ronald van Eede Tools"
+                href="/tools"
+                class="block mt-0 mb-4 text-sm no-underline text-gray-800 hover:text-blue-500"
+            >Tools</a>
+        </li>
+        <!--
         <li class="pl-4">
             <a
                 title="Ronald van Eede About"
@@ -100,39 +113,22 @@
                 class="block mt-0 mb-4 text-sm no-underline text-gray-800 hover:text-blue-500"
             >Contact</a>
         </li>
+        -->
     </ul>
-    -->
 </nav>
 
-        <main role="main" class="flex-auto w-full container max-w-4xl mx-auto py-16 px-6">
-                        <img src="https://picsum.photos/seed/disposable/848/300" alt="Setting up a disposable development environment with Virtualbox, Vagrant and Ansible cover image" class="mb-2 rounded-md shadow-md">
-    
-    <h1 class="leading-none mb-2">Setting up a disposable development environment with Virtualbox, Vagrant and Ansible</h1>
+        <main role="main" class="flex-auto w-full container max-w-6xl mx-auto py-16 px-6">
+                <div class="overflow-hidden shadow-lg rounded-lg bg-white mb-12">
+                    <img alt="Setting up a disposable development environment cover image" src="https://picsum.photos/seed/disposable/848/300" class="max-h-60 w-full object-cover"/>
+                
+        <div class="p-4">
+            <h1 class="text-gray-800">
+                Setting up a disposable development environment
+            </h1>
 
-    <p class="text-gray-700 text-xl md:mt-0">Ronald van Eede  •  March 23, 2017  •  7 min read</p>
+            <p>A problem with working on many different projects is that your computer can become littered with all kinds of libraries, frameworks, tools and applications that you only need for one project. Sometimes you can even have problems with conflicting versions, for example one project needs version x of a framework and another project needs version y of that same framework, but you can have only one installed at the same.</p>
 
-                        <a
-                href="/blog/categories/Virtualbox"
-                title="View posts in Virtualbox"
-                class="inline-block bg-gray-300 hover:bg-blue-200 leading-loose tracking-wide text-gray-800 uppercase text-xs font-semibold rounded mr-4 px-3 pt-px"
-            >Virtualbox</a>
-                    <a
-                href="/blog/categories/Vagrant"
-                title="View posts in Vagrant"
-                class="inline-block bg-gray-300 hover:bg-blue-200 leading-loose tracking-wide text-gray-800 uppercase text-xs font-semibold rounded mr-4 px-3 pt-px"
-            >Vagrant</a>
-                    <a
-                href="/blog/categories/Ansible"
-                title="View posts in Ansible"
-                class="inline-block bg-gray-300 hover:bg-blue-200 leading-loose tracking-wide text-gray-800 uppercase text-xs font-semibold rounded mr-4 px-3 pt-px"
-            >Ansible</a>
-            
-    <div class="border-b border-blue-200 mb-10 pb-4" v-pre>
-        <p>A problem with working on many different projects is that your computer can become littered with all kinds of libraries, frameworks, tools and applications that you only need for one project. Sometimes you can even have problems with conflicting versions, for example one project needs version x of a framework and another project needs version y of that same framework, but you can have only one installed at the same.</p>
-
-<h2>Setting up a virtual development environment</h2>
-
-<p>Sometimes you can resolve that by using <a href="https://github.com/nvm-sh/nvm">Node Version Manager</a> for Nodejs or Ru<a href="https://rvm.io/">by Version Manager</a> for Ruby for example. But that is not always possible.<br />
+<p>Sometimes you can resolve that by using <a href="https://github.com/nvm-sh/nvm">Node Version Manager</a> for Nodejs or <a href="https://rvm.io/">Ruby Version Manager</a> for Ruby for example. But that is not always possible.<br />
 But after you stop working on that project and move on to another one that does not need those tools you still have them lingering around on your computer. You can of course uninstall them but who does that?</p>
 
 <p>A solution would be to create a disposable, easily recreate-able virtual development environment for each project or different kind of project. In this post I will describe how you could to that.</p>
@@ -333,21 +329,21 @@ Once it's all finished you will have a basic virtual development environment rea
 </ul>
 
 <p>In another future post I will explain some more about using Vagrant and I will extend the playbook with some more roles.</p>
+        </div>
     </div>
+    
 
     <nav class="flex justify-between text-sm md:text-base">
         <div>
-                            <a href="https://ronaldvaneede.me/blog/my-first-blog-post" title="Older Post: My First Blog Post">
-                    &LeftArrow; My First Blog Post
+                            <a href="https://ronaldvaneede.me/blog/mutation-testing" title="Older Post: Mutation testing">
+                    &LeftArrow; Mutation testing
                 </a>
                     </div>
 
         <div>
-                            <a href="https://ronaldvaneede.me/blog/mailchimp-newsletters" title="Newer Post: Mailchimp Newsletters">
-                    Mailchimp Newsletters &RightArrow;
-                </a>
                     </div>
-    </nav>
+    </nav> 
+    
         </main>
 
         <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo">
