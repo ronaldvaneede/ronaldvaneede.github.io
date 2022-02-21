@@ -20,12 +20,12 @@
                 <script defer data-domain="ronaldvaneede.me" src="https://plausible.io/js/plausible.js"></script>
         
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i,800,800i" rel="stylesheet">
-        <link rel="stylesheet" href="/assets/build/css/main.css?id=f408e1e04850e7a8dac1">
+        <link rel="stylesheet" href="/assets/build/css/main.css?id=0628d6c5920b15403468">
     </head>
 
     <body class="flex flex-col justify-between min-h-screen bg-gray-100 text-gray-800 leading-normal font-sans">
-        <header class="flex items-center shadow bg-white border-b h-24 py-4" role="banner">
-            <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
+        <header class="flex items-center shadow-md bg-white border-b h-24 py-4" role="banner">
+            <div class="container flex items-center max-w-6xl mx-auto px-4 lg:px-8">
                 <div class="flex items-center">
                     <a href="/" title="Ronald van Eede home" class="inline-flex items-center">
                         <!-- <img class="h-8 md:h-10 mr-3" src="/assets/img/logo.svg" alt="Ronald van Eede logo" /> -->
@@ -38,12 +38,18 @@
                     <search></search>
 
                     <nav class="hidden lg:flex items-center justify-end text-lg">
-    <!--
+    
     <a title="Ronald van Eede Blog" href="/blog"
         class="ml-6 text-gray-700 hover:text-blue-600 ">
         Blog
     </a>
+
+    <a title="Ronald van Eede Tools" href="/tools"
+        class="ml-6 text-gray-700 hover:text-blue-600 ">
+        Tools
+    </a>
     
+    <!--
     <a title="Ronald van Eede About" href="/about"
         class="ml-6 text-gray-700 hover:text-blue-600 ">
         About
@@ -77,7 +83,6 @@
         </header>
 
         <nav id="js-nav-menu" class="w-auto px-2 pt-6 pb-2 bg-gray-200 shadow hidden lg:hidden">
-    <!--
     <ul class="my-0">
         <li class="pl-4">
             <a
@@ -86,6 +91,14 @@
                 class="block mt-0 mb-4 text-sm no-underline text-gray-800 hover:text-blue-500"
             >Blog</a>
         </li>
+        <li class="pl-4">
+            <a
+                title="Ronald van Eede Tools"
+                href="/tools"
+                class="block mt-0 mb-4 text-sm no-underline text-gray-800 hover:text-blue-500"
+            >Tools</a>
+        </li>
+        <!--
         <li class="pl-4">
             <a
                 title="Ronald van Eede About"
@@ -100,25 +113,20 @@
                 class="block mt-0 mb-4 text-sm no-underline text-gray-800 hover:text-blue-500"
             >Contact</a>
         </li>
+        -->
     </ul>
-    -->
 </nav>
 
-        <main role="main" class="flex-auto w-full container max-w-4xl mx-auto py-16 px-6">
-                        <img src="https://picsum.photos/seed/podcasts/848/300" alt="Podcasts for developers cover image" class="mb-2 rounded-md shadow-md">
-    
-    <h1 class="leading-none mb-2">Podcasts for developers</h1>
+        <main role="main" class="flex-auto w-full container max-w-6xl mx-auto py-16 px-6">
+                <div class="overflow-hidden shadow-lg rounded-lg bg-white mb-12">
+                    <img alt="Podcasts for developers cover image" src="https://picsum.photos/seed/podcasts/848/300" class="max-h-60 w-full object-cover"/>
+                
+        <div class="p-4">
+            <h1 class="text-gray-800">
+                Podcasts for developers
+            </h1>
 
-    <p class="text-gray-700 text-xl md:mt-0">Ronald van Eede  •  February 16, 2016  •  1 min read</p>
-
-                        <a
-                href="/blog/categories/Podcasts"
-                title="View posts in Podcasts"
-                class="inline-block bg-gray-300 hover:bg-blue-200 leading-loose tracking-wide text-gray-800 uppercase text-xs font-semibold rounded mr-4 px-3 pt-px"
-            >Podcasts</a>
-            
-    <div class="border-b border-blue-200 mb-10 pb-4" v-pre>
-        <p>If you are a software developer or web developer you have to keep up to speed with all kind of new developments.
+            <p>If you are a software developer or web developer you have to keep up to speed with all kind of new developments.
 One good resource for that are podcasts. I spend about 2 hours a day in my car traveling to and from work, so that is a good time to catch up by listening to a podcast.</p>
 
 <p>Here is a list of some podcasts that I follow and find interesting.</p>
@@ -150,7 +158,9 @@ The goal of this podcast is to be an educational resource, not a newscast.
 A episode covers all topics related to software engineering. Either tutorials on a specific topic, or an interview with a well-known expert from the software engineering world.</p>
 
 <p>Do you have any related Podcasts you follow and are not in this list? Let me know in the comments.</p>
+        </div>
     </div>
+    
 
     <nav class="flex justify-between text-sm md:text-base">
         <div>
@@ -164,7 +174,8 @@ A episode covers all topics related to software engineering. Either tutorials on
                     Mutation testing &RightArrow;
                 </a>
                     </div>
-    </nav>
+    </nav> 
+    
         </main>
 
         <footer class="bg-white text-center text-sm mt-12 py-4" role="contentinfo">

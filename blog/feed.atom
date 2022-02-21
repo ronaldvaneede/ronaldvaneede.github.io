@@ -3,7 +3,7 @@
     <title>Ronald van Eede</title>
     <link href="https://ronaldvaneede.me/blog" />
     <link type="application/atom+xml" rel="self" href="https://ronaldvaneede.me/blog/feed.atom" />
-    <updated>2022-02-14T15:12:28+01:00</updated>
+    <updated>2022-02-21T13:48:22+01:00</updated>
     <id>https://ronaldvaneede.me/blog/feed.atom</id>
     <author>
         <name>Ronald van Eede</name>
@@ -11,7 +11,7 @@
                 <entry>
     <id>https://ronaldvaneede.me/blog/disposable-development-environment-with-virtualbox</id>
     <link type="text/html" rel="alternate" href="https://ronaldvaneede.me/blog/disposable-development-environment-with-virtualbox" />
-    <title>Setting up a disposable development environment with Virtualbox, Vagrant and Ansible</title>
+    <title>Setting up a disposable development environment</title>
     <published>2017-03-23T01:00:00+01:00</published>
     <updated>2017-03-23T01:00:00+01:00</updated>
     <author>
@@ -21,9 +21,7 @@
     <content type="html"><![CDATA[
         <p>A problem with working on many different projects is that your computer can become littered with all kinds of libraries, frameworks, tools and applications that you only need for one project. Sometimes you can even have problems with conflicting versions, for example one project needs version x of a framework and another project needs version y of that same framework, but you can have only one installed at the same.</p>
 
-<h2>Setting up a virtual development environment</h2>
-
-<p>Sometimes you can resolve that by using <a href="https://github.com/nvm-sh/nvm">Node Version Manager</a> for Nodejs or Ru<a href="https://rvm.io/">by Version Manager</a> for Ruby for example. But that is not always possible.<br />
+<p>Sometimes you can resolve that by using <a href="https://github.com/nvm-sh/nvm">Node Version Manager</a> for Nodejs or <a href="https://rvm.io/">Ruby Version Manager</a> for Ruby for example. But that is not always possible.<br />
 But after you stop working on that project and move on to another one that does not need those tools you still have them lingering around on your computer. You can of course uninstall them but who does that?</p>
 
 <p>A solution would be to create a disposable, easily recreate-able virtual development environment for each project or different kind of project. In this post I will describe how you could to that.</p>
